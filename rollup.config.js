@@ -14,10 +14,9 @@ export default [
       commonjs(),
       typescript({
         clean: true,
-        sourceMap: false,
+        sourceMap: true,
       }),
-      resolve({ extensions }),
-      uglify(),
+      resolve({ extensions, browser: true, preferBuiltins: true }),
       json(),
     ],
   },
