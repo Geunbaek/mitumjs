@@ -1,14 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NFTItem = void 0;
-const base_1 = require("../base");
-const key_1 = require("../../key");
-const common_1 = require("../../common");
-class NFTItem extends base_1.Item {
+import { Item } from "../base";
+import { Address } from "../../key";
+import { CurrencyID } from "../../common";
+export class NFTItem extends Item {
+    contract;
+    currency;
     constructor(hint, contract, currency) {
         super(hint);
-        this.contract = key_1.Address.from(contract);
-        this.currency = common_1.CurrencyID.from(currency);
+        this.contract = Address.from(contract);
+        this.currency = CurrencyID.from(currency);
     }
     toBuffer() {
         return this.contract.toBuffer();
@@ -24,5 +23,4 @@ class NFTItem extends base_1.Item {
         return this.contract.toString();
     }
 }
-exports.NFTItem = NFTItem;
 //# sourceMappingURL=item.js.map

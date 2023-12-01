@@ -1,10 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Token = void 0;
-const error_1 = require("../error");
-class Token {
+import { Assert, ECODE, MitumError } from "../error";
+export class Token {
+    s;
     constructor(s) {
-        error_1.Assert.check(s !== "", error_1.MitumError.detail(error_1.ECODE.INVALID_TOKEN, "empty token"));
+        Assert.check(s !== "", MitumError.detail(ECODE.INVALID_TOKEN, "empty token"));
         this.s = s;
     }
     static from(s) {
@@ -17,5 +15,4 @@ class Token {
         return Buffer.from(this.s, "utf8").toString("base64");
     }
 }
-exports.Token = Token;
 //# sourceMappingURL=token.js.map

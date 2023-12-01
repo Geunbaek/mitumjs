@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TokenFact = void 0;
-const base_1 = require("../base");
-class TokenFact extends base_1.ContractFact {
+import { ContractFact } from "../base";
+export class TokenFact extends ContractFact {
     constructor(hint, token, sender, contract, currency) {
         super(hint, token, sender, contract, currency);
     }
@@ -18,5 +15,4 @@ class TokenFact extends base_1.ContractFact {
         };
     }
 }
-exports.TokenFact = TokenFact;
 //# sourceMappingURL=fact.js.map

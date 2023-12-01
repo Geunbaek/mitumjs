@@ -1,32 +1,32 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateSecurityTokenFact = exports.CreateSecurityTokenItem = void 0;
-const item_1 = require("./item");
-const partition_1 = require("./partition");
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-const node_1 = require("../../node");
-const key_1 = require("../../key");
-const types_1 = require("../../types");
-const error_1 = require("../../error");
-const utils_1 = require("../../utils");
-class CreateSecurityTokenItem extends item_1.STOItem {
+import { STOItem } from "./item";
+import { Partition } from "./partition";
+import { OperationFact } from "../base";
+import { HINT } from "../../alias";
+import { Config } from "../../node";
+import { Address } from "../../key";
+import { Big } from "../../types";
+import { Assert, ECODE, MitumError } from "../../error";
+import { SortFunc, hasOverlappingAddress } from "../../utils";
+export class CreateSecurityTokenItem extends STOItem {
+    granularity;
+    defaultPartition;
+    controllers;
     constructor(contract, granularity, defaultPartition, controllers, currency) {
-        super(alias_1.HINT.STO.CREATE_SECURITY_TOKEN.ITEM, contract, currency);
-        this.granularity = types_1.Big.from(granularity);
-        this.defaultPartition = partition_1.Partition.from(defaultPartition);
-        this.controllers = controllers ? controllers.map(a => key_1.Address.from(a)) : [];
-        error_1.Assert.check(!this.granularity.isZero(), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEM, "zero granularity"));
-        error_1.Assert.check(node_1.Config.STO.ADDRESS_IN_CONTROLLERS.satisfy(this.controllers.length), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEM, "controllers length out of range"));
-        error_1.Assert.check((0, utils_1.hasOverlappingAddress)(this.controllers), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEM, "duplicate address found in controllers"));
-        this.controllers.forEach(a => error_1.Assert.check(this.contract.toString() !== a.toString(), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEM, "contract is same with controller address")));
+        super(HINT.STO.CREATE_SECURITY_TOKEN.ITEM, contract, currency);
+        this.granularity = Big.from(granularity);
+        this.defaultPartition = Partition.from(defaultPartition);
+        this.controllers = controllers ? controllers.map(a => Address.from(a)) : [];
+        Assert.check(!this.granularity.isZero(), MitumError.detail(ECODE.INVALID_ITEM, "zero granularity"));
+        Assert.check(Config.STO.ADDRESS_IN_CONTROLLERS.satisfy(this.controllers.length), MitumError.detail(ECODE.INVALID_ITEM, "controllers length out of range"));
+        Assert.check(hasOverlappingAddress(this.controllers), MitumError.detail(ECODE.INVALID_ITEM, "duplicate address found in controllers"));
+        this.controllers.forEach(a => Assert.check(this.contract.toString() !== a.toString(), MitumError.detail(ECODE.INVALID_ITEM, "contract is same with controller address")));
     }
     toBuffer() {
         return Buffer.concat([
             this.contract.toBuffer(),
             this.granularity.toBuffer("fill"),
             this.defaultPartition.toBuffer(),
-            Buffer.concat(this.controllers.sort(utils_1.SortFunc).map(a => a.toBuffer())),
+            Buffer.concat(this.controllers.sort(SortFunc).map(a => a.toBuffer())),
             this.currency.toBuffer(),
         ]);
     }
@@ -35,19 +35,17 @@ class CreateSecurityTokenItem extends item_1.STOItem {
             ...super.toHintedObject(),
             granularity: this.granularity.v,
             default_partition: this.defaultPartition.toString(),
-            controllers: this.controllers.sort(utils_1.SortFunc).map(a => a.toString()),
+            controllers: this.controllers.sort(SortFunc).map(a => a.toString()),
         };
     }
 }
-exports.CreateSecurityTokenItem = CreateSecurityTokenItem;
-class CreateSecurityTokenFact extends base_1.OperationFact {
+export class CreateSecurityTokenFact extends OperationFact {
     constructor(token, sender, items) {
-        super(alias_1.HINT.STO.CREATE_SECURITY_TOKEN.FACT, token, sender, items);
-        error_1.Assert.check(new Set(items.map(it => it.toString())).size === items.length, error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "duplicate contract found in items"));
+        super(HINT.STO.CREATE_SECURITY_TOKEN.FACT, token, sender, items);
+        Assert.check(new Set(items.map(it => it.toString())).size === items.length, MitumError.detail(ECODE.INVALID_ITEMS, "duplicate contract found in items"));
     }
     get operationHint() {
-        return alias_1.HINT.STO.CREATE_SECURITY_TOKEN.OPERATION;
+        return HINT.STO.CREATE_SECURITY_TOKEN.OPERATION;
     }
 }
-exports.CreateSecurityTokenFact = CreateSecurityTokenFact;
 //# sourceMappingURL=create-security-token.js.map

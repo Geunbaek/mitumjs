@@ -1,18 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MintFact = exports.MintItem = void 0;
-const item_1 = require("./item");
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-const key_1 = require("../../key");
-const types_1 = require("../../types");
-const error_1 = require("../../error");
-class MintItem extends item_1.NFTItem {
+import { NFTItem } from "./item";
+import { OperationFact } from "../base";
+import { HINT } from "../../alias";
+import { Address } from "../../key";
+import { LongString } from "../../types";
+import { Assert, ECODE, MitumError } from "../../error";
+export class MintItem extends NFTItem {
+    receiver;
+    hash;
+    uri;
+    creators;
     constructor(contract, receiver, hash, uri, creators, currency) {
-        super(alias_1.HINT.NFT.MINT.ITEM, contract, currency);
-        this.receiver = key_1.Address.from(receiver);
-        this.hash = types_1.LongString.from(hash);
-        this.uri = types_1.LongString.from(uri);
+        super(HINT.NFT.MINT.ITEM, contract, currency);
+        this.receiver = Address.from(receiver);
+        this.hash = LongString.from(hash);
+        this.uri = LongString.from(uri);
         this.creators = creators;
     }
     toBuffer() {
@@ -35,15 +36,13 @@ class MintItem extends item_1.NFTItem {
         };
     }
 }
-exports.MintItem = MintItem;
-class MintFact extends base_1.OperationFact {
+export class MintFact extends OperationFact {
     constructor(token, sender, items) {
-        super(alias_1.HINT.NFT.MINT.FACT, token, sender, items);
-        this.items.forEach(it => error_1.Assert.check(this.sender.toString() != it.contract.toString(), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "sender is same with contract address")));
+        super(HINT.NFT.MINT.FACT, token, sender, items);
+        this.items.forEach(it => Assert.check(this.sender.toString() != it.contract.toString(), MitumError.detail(ECODE.INVALID_ITEMS, "sender is same with contract address")));
     }
     get operationHint() {
-        return alias_1.HINT.NFT.MINT.OPERATION;
+        return HINT.NFT.MINT.OPERATION;
     }
 }
-exports.MintFact = MintFact;
 //# sourceMappingURL=mint.js.map

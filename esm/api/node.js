@@ -1,14 +1,9 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
-const types_1 = require("../types");
+import axios from "axios";
+import { IP } from "../types";
 async function getNode(api) {
-    return await axios_1.default.get(`${types_1.IP.from(api).toString()}/`);
+    return await axios.get(`${IP.from(api).toString()}/`);
 }
-exports.default = {
+export default {
     getNode,
 };
 //# sourceMappingURL=node.js.map

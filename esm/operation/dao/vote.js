@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.VoteFact = void 0;
-const fact_1 = require("./fact");
-const types_1 = require("../../types");
-const alias_1 = require("../../alias");
-class VoteFact extends fact_1.DAOFact {
+import { DAOFact } from "./fact";
+import { Big } from "../../types";
+import { HINT } from "../../alias";
+export class VoteFact extends DAOFact {
+    vote;
     constructor(token, sender, contract, proposalID, vote, currency) {
-        super(alias_1.HINT.DAO.VOTE.FACT, token, sender, contract, proposalID, currency);
-        this.vote = types_1.Big.from(vote);
+        super(HINT.DAO.VOTE.FACT, token, sender, contract, proposalID, currency);
+        this.vote = Big.from(vote);
         this._hash = this.hashing();
     }
     toBuffer() {
@@ -24,8 +22,7 @@ class VoteFact extends fact_1.DAOFact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.DAO.VOTE.OPERATION;
+        return HINT.DAO.VOTE.OPERATION;
     }
 }
-exports.VoteFact = VoteFact;
 //# sourceMappingURL=vote.js.map

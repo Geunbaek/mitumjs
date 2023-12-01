@@ -1,13 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.BizProposal = exports.CryptoProposal = exports.GovernanceCalldata = exports.TransferCalldata = void 0;
-const alias_1 = require("../../alias");
-const key_1 = require("../../key");
-const common_1 = require("../../common");
-const types_1 = require("../../types");
+import { HINT } from "../../alias";
+import { Address } from "../../key";
+import { Hint } from "../../common";
+import { Big, LongString } from "../../types";
 class Calldata {
+    hint;
     constructor(hint) {
-        this.hint = new common_1.Hint(hint);
+        this.hint = new Hint(hint);
     }
     toBuffer() {
         return Buffer.from([]);
@@ -18,11 +16,14 @@ class Calldata {
         };
     }
 }
-class TransferCalldata extends Calldata {
+export class TransferCalldata extends Calldata {
+    sender;
+    receiver;
+    amount;
     constructor(sender, receiver, amount) {
-        super(alias_1.HINT.DAO.CALLDATA.TRANSFER);
-        this.sender = key_1.Address.from(sender);
-        this.receiver = key_1.Address.from(receiver);
+        super(HINT.DAO.CALLDATA.TRANSFER);
+        this.sender = Address.from(sender);
+        this.receiver = Address.from(receiver);
         this.amount = amount;
     }
     toBuffer() {
@@ -42,10 +43,10 @@ class TransferCalldata extends Calldata {
         };
     }
 }
-exports.TransferCalldata = TransferCalldata;
-class GovernanceCalldata extends Calldata {
+export class GovernanceCalldata extends Calldata {
+    policy;
     constructor(policy) {
-        super(alias_1.HINT.DAO.CALLDATA.GOVERNANCE);
+        super(HINT.DAO.CALLDATA.GOVERNANCE);
         this.policy = policy;
     }
     toBuffer() {
@@ -61,12 +62,14 @@ class GovernanceCalldata extends Calldata {
         };
     }
 }
-exports.GovernanceCalldata = GovernanceCalldata;
 class Proposal {
+    hint;
+    proposer;
+    startTime;
     constructor(hint, proposer, startTime) {
-        this.hint = new common_1.Hint(hint);
-        this.proposer = key_1.Address.from(proposer);
-        this.startTime = types_1.Big.from(startTime);
+        this.hint = new Hint(hint);
+        this.proposer = Address.from(proposer);
+        this.startTime = Big.from(startTime);
     }
     toBuffer() {
         return Buffer.concat([
@@ -82,9 +85,10 @@ class Proposal {
         };
     }
 }
-class CryptoProposal extends Proposal {
+export class CryptoProposal extends Proposal {
+    calldata;
     constructor(proposer, startTime, calldata) {
-        super(alias_1.HINT.DAO.PROPOSAL.CRYPTO, proposer, startTime);
+        super(HINT.DAO.PROPOSAL.CRYPTO, proposer, startTime);
         this.calldata = calldata;
     }
     toBuffer() {
@@ -100,13 +104,15 @@ class CryptoProposal extends Proposal {
         };
     }
 }
-exports.CryptoProposal = CryptoProposal;
-class BizProposal extends Proposal {
+export class BizProposal extends Proposal {
+    url;
+    hash;
+    options;
     constructor(proposer, startTime, url, hash, options) {
-        super(alias_1.HINT.DAO.PROPOSAL.BIZ, proposer, startTime);
-        this.url = types_1.LongString.from(url);
-        this.hash = types_1.LongString.from(hash);
-        this.options = types_1.Big.from(options);
+        super(HINT.DAO.PROPOSAL.BIZ, proposer, startTime);
+        this.url = LongString.from(url);
+        this.hash = LongString.from(hash);
+        this.options = Big.from(options);
     }
     toBuffer() {
         return Buffer.concat([
@@ -125,5 +131,4 @@ class BizProposal extends Proposal {
         };
     }
 }
-exports.BizProposal = BizProposal;
 //# sourceMappingURL=proposal.js.map

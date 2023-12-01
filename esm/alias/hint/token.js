@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     REGISTER_TOKEN: {
         FACT: "mitum-token-register-token-operation-fact",
         OPERATION: "mitum-token-register-token-operation",

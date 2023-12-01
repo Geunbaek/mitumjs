@@ -1,8 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FullTimeStamp = exports.TimeStamp = void 0;
-const error_1 = require("../error");
-class TimeStamp {
+import { Assert, MitumError } from "../error";
+export class TimeStamp {
+    t;
     constructor(t) {
         if (t === undefined) {
             this.t = new Date();
@@ -37,7 +35,7 @@ class TimeStamp {
         if (z < 0) {
             z = iso.indexOf("+");
         }
-        error_1.Assert.check(0 <= z, error_1.MitumError.detail(undefined, "no 'Z' in iso"));
+        Assert.check(0 <= z, MitumError.detail(undefined, "no 'Z' in iso"));
         let _time = iso.substring(t + 1, z);
         const dotIdx = _time.indexOf(".");
         if (dotIdx < 0) {
@@ -73,8 +71,8 @@ class TimeStamp {
         return iso.substring(0, t) + " " + rtime + " +0000 UTC";
     }
 }
-exports.TimeStamp = TimeStamp;
-class FullTimeStamp extends TimeStamp {
+export class FullTimeStamp extends TimeStamp {
+    r;
     constructor(s) {
         super(s);
         const dot = s.indexOf(".");
@@ -109,5 +107,4 @@ class FullTimeStamp extends TimeStamp {
         return utc;
     }
 }
-exports.FullTimeStamp = FullTimeStamp;
 //# sourceMappingURL=time.js.map

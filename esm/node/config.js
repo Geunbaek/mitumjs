@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Config = exports.NetworkID = exports.Version = void 0;
-exports.Version = (() => {
+export const Version = (() => {
     let v = "v0.0.1";
     return {
         get: () => v,
@@ -11,7 +8,7 @@ exports.Version = (() => {
         }
     };
 })();
-exports.NetworkID = (() => {
+export const NetworkID = (() => {
     let v = "mitum";
     return {
         get: () => v,
@@ -29,7 +26,7 @@ const getRangeConfig = (min, max) => {
         satisfy: (target) => min <= target && target <= (max ?? min),
     };
 };
-exports.Config = {
+export const Config = {
     SUFFIX: {
         DEFAULT: getRangeConfig(3),
         ZERO_ADDRESS: getRangeConfig(5)

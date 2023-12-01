@@ -1,31 +1,41 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateDAOFact = void 0;
-const base_1 = require("../base");
-const types_1 = require("../../types");
-const alias_1 = require("../../alias");
-const node_1 = require("../../node");
-const common_1 = require("../../common");
-const error_1 = require("../../error");
-class CreateDAOFact extends base_1.ContractFact {
+import { ContractFact } from "../base";
+import { Big } from "../../types";
+import { HINT } from "../../alias";
+import { Config } from "../../node";
+import { CurrencyID } from "../../common";
+import { Assert, ECODE, MitumError } from "../../error";
+export class CreateDAOFact extends ContractFact {
+    option;
+    votingPowerToken;
+    threshold;
+    fee;
+    whitelist;
+    proposalReviewPeriod;
+    registrationPeriod;
+    preSnapshotPeriod;
+    votingPeriod;
+    postSnapshotPeriod;
+    executionDelayPeriod;
+    turnout;
+    quorum;
     constructor(token, sender, contract, option, votingPowerToken, threshold, fee, whitelist, proposalReviewPeriod, registrationPeriod, preSnapshotPeriod, votingPeriod, postSnapshotPeriod, executionDelayPeriod, turnout, quorum, currency) {
-        super(alias_1.HINT.DAO.CREATE_DAO.FACT, token, sender, contract, currency);
+        super(HINT.DAO.CREATE_DAO.FACT, token, sender, contract, currency);
         this.option = option;
-        this.votingPowerToken = common_1.CurrencyID.from(votingPowerToken);
-        this.threshold = types_1.Big.from(threshold);
+        this.votingPowerToken = CurrencyID.from(votingPowerToken);
+        this.threshold = Big.from(threshold);
         this.fee = fee;
         this.whitelist = whitelist;
-        this.proposalReviewPeriod = types_1.Big.from(proposalReviewPeriod);
-        this.registrationPeriod = types_1.Big.from(registrationPeriod);
-        this.preSnapshotPeriod = types_1.Big.from(preSnapshotPeriod);
-        this.votingPeriod = types_1.Big.from(votingPeriod);
-        this.postSnapshotPeriod = types_1.Big.from(postSnapshotPeriod);
-        this.executionDelayPeriod = types_1.Big.from(executionDelayPeriod);
-        this.turnout = types_1.Big.from(turnout);
-        this.quorum = types_1.Big.from(quorum);
-        error_1.Assert.check(node_1.Config.DAO.QUORUM.satisfy(this.turnout.v), error_1.MitumError.detail(error_1.ECODE.INVALID_FACT, "turnout out of range"));
-        error_1.Assert.check(node_1.Config.DAO.QUORUM.satisfy(this.quorum.v), error_1.MitumError.detail(error_1.ECODE.INVALID_FACT, "quorum out of range"));
-        this.whitelist.accounts.forEach(a => error_1.Assert.check(this.contract.toString() !== a.toString(), error_1.MitumError.detail(error_1.ECODE.INVALID_FACT, "contract is same with whitelist address")));
+        this.proposalReviewPeriod = Big.from(proposalReviewPeriod);
+        this.registrationPeriod = Big.from(registrationPeriod);
+        this.preSnapshotPeriod = Big.from(preSnapshotPeriod);
+        this.votingPeriod = Big.from(votingPeriod);
+        this.postSnapshotPeriod = Big.from(postSnapshotPeriod);
+        this.executionDelayPeriod = Big.from(executionDelayPeriod);
+        this.turnout = Big.from(turnout);
+        this.quorum = Big.from(quorum);
+        Assert.check(Config.DAO.QUORUM.satisfy(this.turnout.v), MitumError.detail(ECODE.INVALID_FACT, "turnout out of range"));
+        Assert.check(Config.DAO.QUORUM.satisfy(this.quorum.v), MitumError.detail(ECODE.INVALID_FACT, "quorum out of range"));
+        this.whitelist.accounts.forEach(a => Assert.check(this.contract.toString() !== a.toString(), MitumError.detail(ECODE.INVALID_FACT, "contract is same with whitelist address")));
         this._hash = this.hashing();
     }
     toBuffer() {
@@ -66,8 +76,7 @@ class CreateDAOFact extends base_1.ContractFact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.DAO.CREATE_DAO.OPERATION;
+        return HINT.DAO.CREATE_DAO.OPERATION;
     }
 }
-exports.CreateDAOFact = CreateDAOFact;
 //# sourceMappingURL=create-dao.js.map

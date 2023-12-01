@@ -1,14 +1,16 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RatioFeeer = exports.FixedFeeer = exports.NilFeeer = exports.CurrencyPolicy = exports.CurrencyDesign = void 0;
-const alias_1 = require("../../alias");
-const key_1 = require("../../key");
-const common_1 = require("../../common");
-const types_1 = require("../../types");
-class CurrencyDesign {
+import { HINT } from "../../alias";
+import { Address } from "../../key";
+import { Hint } from "../../common";
+import { Big, Float } from "../../types";
+export class CurrencyDesign {
+    static hint = new Hint(HINT.CURRENCY.DESIGN);
+    amount;
+    policy;
+    genesisAccount;
+    aggregate;
     constructor(amount, genesisAccount, policy) {
         this.amount = amount;
-        this.genesisAccount = key_1.Address.from(genesisAccount);
+        this.genesisAccount = Address.from(genesisAccount);
         this.policy = policy;
         this.aggregate = amount.big;
     }
@@ -30,11 +32,12 @@ class CurrencyDesign {
         };
     }
 }
-exports.CurrencyDesign = CurrencyDesign;
-CurrencyDesign.hint = new common_1.Hint(alias_1.HINT.CURRENCY.DESIGN);
-class CurrencyPolicy {
+export class CurrencyPolicy {
+    static hint = new Hint(HINT.CURRENCY.POLICY);
+    newAccountMinBalance;
+    feeer;
     constructor(newAccountMinBalance, feeer) {
-        this.newAccountMinBalance = types_1.Big.from(newAccountMinBalance);
+        this.newAccountMinBalance = Big.from(newAccountMinBalance);
         this.feeer = feeer;
     }
     toBuffer() {
@@ -51,13 +54,13 @@ class CurrencyPolicy {
         };
     }
 }
-exports.CurrencyPolicy = CurrencyPolicy;
-CurrencyPolicy.hint = new common_1.Hint(alias_1.HINT.CURRENCY.POLICY);
 class Feeer {
+    hint;
+    exchangeMinAmount;
     constructor(hint, exchangeMinAmount) {
-        this.hint = new common_1.Hint(hint);
+        this.hint = new Hint(hint);
         if (exchangeMinAmount) {
-            this.exchangeMinAmount = exchangeMinAmount instanceof types_1.Big ? exchangeMinAmount : new types_1.Big(exchangeMinAmount);
+            this.exchangeMinAmount = exchangeMinAmount instanceof Big ? exchangeMinAmount : new Big(exchangeMinAmount);
         }
     }
     toHintedObject() {
@@ -66,20 +69,21 @@ class Feeer {
         };
     }
 }
-class NilFeeer extends Feeer {
+export class NilFeeer extends Feeer {
     constructor() {
-        super(alias_1.HINT.CURRENCY.FEEER.NIL);
+        super(HINT.CURRENCY.FEEER.NIL);
     }
     toBuffer() {
         return Buffer.from([]);
     }
 }
-exports.NilFeeer = NilFeeer;
-class FixedFeeer extends Feeer {
+export class FixedFeeer extends Feeer {
+    receiver;
+    amount;
     constructor(receiver, amount) {
-        super(alias_1.HINT.CURRENCY.FEEER.FIXED);
-        this.receiver = key_1.Address.from(receiver);
-        this.amount = types_1.Big.from(amount);
+        super(HINT.CURRENCY.FEEER.FIXED);
+        this.receiver = Address.from(receiver);
+        this.amount = Big.from(amount);
     }
     toBuffer() {
         return Buffer.concat([
@@ -103,14 +107,17 @@ class FixedFeeer extends Feeer {
         return feeer;
     }
 }
-exports.FixedFeeer = FixedFeeer;
-class RatioFeeer extends Feeer {
+export class RatioFeeer extends Feeer {
+    receiver;
+    ratio;
+    min;
+    max;
     constructor(receiver, ratio, min, max) {
-        super(alias_1.HINT.CURRENCY.FEEER.RATIO);
-        this.receiver = key_1.Address.from(receiver);
-        this.ratio = new types_1.Float(ratio);
-        this.min = min instanceof types_1.Big ? min : new types_1.Big(min);
-        this.max = max instanceof types_1.Big ? max : new types_1.Big(max);
+        super(HINT.CURRENCY.FEEER.RATIO);
+        this.receiver = Address.from(receiver);
+        this.ratio = new Float(ratio);
+        this.min = min instanceof Big ? min : new Big(min);
+        this.max = max instanceof Big ? max : new Big(max);
     }
     toBuffer() {
         return Buffer.concat([
@@ -138,5 +145,4 @@ class RatioFeeer extends Feeer {
         return feeer;
     }
 }
-exports.RatioFeeer = RatioFeeer;
 //# sourceMappingURL=currency-design.js.map

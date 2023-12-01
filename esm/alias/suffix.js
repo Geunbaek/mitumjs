@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 const KEY = {
     MITUM: {
         PRIVATE: "mpr",
@@ -16,7 +14,7 @@ const ADDRESS = {
     NODE: "sas",
     ZERO: "-Xmca",
 };
-exports.default = {
+export default {
     KEY,
     ADDRESS,
 };

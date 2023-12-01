@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     KEY: "mitum-currency-key",
     KEYS: "mitum-currency-keys",
     ETH_KEYS: "mitum-currency-eth-keys",

@@ -1,21 +1,22 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AssignFact = exports.AssignItem = void 0;
-const base_1 = require("../base");
-const item_1 = require("./item");
-const alias_1 = require("../../alias");
-const node_1 = require("../../node");
-const error_1 = require("../../error");
-const types_1 = require("../../types");
-class AssignItem extends item_1.CredentialItem {
+import { OperationFact } from "../base";
+import { CredentialItem } from "./item";
+import { HINT } from "../../alias";
+import { Config } from "../../node";
+import { Assert, ECODE, MitumError } from "../../error";
+import { Big } from "../../types";
+export class AssignItem extends CredentialItem {
+    value;
+    validFrom;
+    validUntil;
+    did;
     constructor(contract, holder, templateID, id, value, validFrom, validUntil, did, currency) {
-        super(alias_1.HINT.CREDENTIAL.ASSIGN.ITEM, contract, holder, templateID, id, currency);
+        super(HINT.CREDENTIAL.ASSIGN.ITEM, contract, holder, templateID, id, currency);
         this.value = value;
-        this.validFrom = types_1.Big.from(validFrom);
-        this.validUntil = types_1.Big.from(validUntil);
+        this.validFrom = Big.from(validFrom);
+        this.validUntil = Big.from(validUntil);
         this.did = did;
-        error_1.Assert.check(node_1.Config.CREDENTIAL.VALUE.satisfy(value.length), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEM, "credential value length out of range"));
-        error_1.Assert.check(validFrom < validUntil, error_1.MitumError.detail(error_1.ECODE.INVALID_ITEM, "valid until <= valid from"));
+        Assert.check(Config.CREDENTIAL.VALUE.satisfy(value.length), MitumError.detail(ECODE.INVALID_ITEM, "credential value length out of range"));
+        Assert.check(validFrom < validUntil, MitumError.detail(ECODE.INVALID_ITEM, "valid until <= valid from"));
     }
     toBuffer() {
         return Buffer.concat([
@@ -40,15 +41,13 @@ class AssignItem extends item_1.CredentialItem {
         return `${super.toString()}-${this.id}`;
     }
 }
-exports.AssignItem = AssignItem;
-class AssignFact extends base_1.OperationFact {
+export class AssignFact extends OperationFact {
     constructor(token, sender, items) {
-        super(alias_1.HINT.CREDENTIAL.ASSIGN.FACT, token, sender, items);
-        error_1.Assert.check(new Set(items.map(it => it.toString())).size === items.length, error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "duplicate credential id found in items"));
+        super(HINT.CREDENTIAL.ASSIGN.FACT, token, sender, items);
+        Assert.check(new Set(items.map(it => it.toString())).size === items.length, MitumError.detail(ECODE.INVALID_ITEMS, "duplicate credential id found in items"));
     }
     get operationHint() {
-        return alias_1.HINT.CREDENTIAL.ASSIGN.OPERATION;
+        return HINT.CREDENTIAL.ASSIGN.OPERATION;
     }
 }
-exports.AssignFact = AssignFact;
 //# sourceMappingURL=assign.js.map

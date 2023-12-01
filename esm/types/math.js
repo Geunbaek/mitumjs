@@ -1,13 +1,8 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Bool = exports.Uint8 = exports.Float = exports.Big = void 0;
-const int64_buffer_1 = __importDefault(require("int64-buffer"));
-const big_integer_1 = __importDefault(require("big-integer"));
-const error_1 = require("../error");
-class Big {
+import Int64 from "int64-buffer";
+import bigInt from "big-integer";
+import { Assert, ECODE, MitumError } from "../error";
+export class Big {
+    big;
     constructor(big) {
         switch (typeof big) {
             case "number":
@@ -20,11 +15,11 @@ class Big {
                     this.big = this.bufferToBig(big);
                 }
                 else {
-                    throw error_1.MitumError.detail(error_1.ECODE.INVALID_BIG_INTEGER, "wrong big");
+                    throw MitumError.detail(ECODE.INVALID_BIG_INTEGER, "wrong big");
                 }
                 break;
             default:
-                throw error_1.MitumError.detail(error_1.ECODE.INVALID_BIG_INTEGER, "wrong big");
+                throw MitumError.detail(ECODE.INVALID_BIG_INTEGER, "wrong big");
         }
     }
     static from(big) {
@@ -41,11 +36,11 @@ class Big {
     toBuffer(option) {
         const size = this.byteLen();
         if (option === "fill") {
-            error_1.Assert.check(size <= 8, error_1.MitumError.detail(error_1.ECODE.INVALID_BIG_INTEGER, "big out of range"));
-            return Buffer.from(new int64_buffer_1.default.Uint64BE(this.toString()).toBuffer());
+            Assert.check(size <= 8, MitumError.detail(ECODE.INVALID_BIG_INTEGER, "big out of range"));
+            return Buffer.from(new Int64.Uint64BE(this.toString()).toBuffer());
         }
         const buf = new Uint8Array(size);
-        let n = (0, big_integer_1.default)(this.big);
+        let n = bigInt(this.big);
         for (let i = size - 1; i >= 0; i--) {
             buf[i] = n.mod(256).valueOf();
             n = n.divide(256);
@@ -53,8 +48,8 @@ class Big {
         return Buffer.from(buf);
     }
     byteLen() {
-        const bitLen = (0, big_integer_1.default)(this.big).bitLength();
-        const quotient = (0, big_integer_1.default)(bitLen).divide(8);
+        const bitLen = bigInt(this.big).bitLength();
+        const quotient = bigInt(bitLen).divide(8);
         if (bitLen.valueOf() - quotient.valueOf() * 8 > 0) {
             return quotient.valueOf() + 1;
         }
@@ -83,8 +78,8 @@ class Big {
         return 0;
     }
 }
-exports.Big = Big;
-class Float {
+export class Float {
+    n;
     constructor(n) {
         this.n = n;
     }
@@ -100,10 +95,10 @@ class Float {
         return "" + this.n;
     }
 }
-exports.Float = Float;
-class Uint8 {
+export class Uint8 {
+    n;
     constructor(n) {
-        error_1.Assert.check(0 <= n && n <= 255, error_1.MitumError.detail(error_1.ECODE.INVALID_UINT8, "uint8 out of range"));
+        Assert.check(0 <= n && n <= 255, MitumError.detail(ECODE.INVALID_UINT8, "uint8 out of range"));
         this.n = n;
     }
     static from(n) {
@@ -121,8 +116,8 @@ class Uint8 {
         return this.n.toString();
     }
 }
-exports.Uint8 = Uint8;
-class Bool {
+export class Bool {
+    b;
     constructor(b) {
         this.b = b;
     }
@@ -136,5 +131,4 @@ class Bool {
         return this.b;
     }
 }
-exports.Bool = Bool;
 //# sourceMappingURL=math.js.map

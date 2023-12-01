@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     REGISTER_POINT: {
         FACT: "mitum-point-register-point-operation-fact",
         OPERATION: "mitum-point-register-point-operation",

@@ -1,21 +1,20 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.StringAssert = exports.Assert = exports.MitumError = void 0;
-const code_1 = require("./code");
-class MitumError extends Error {
+import { ECODE } from "./code";
+export class MitumError extends Error {
+    code;
     constructor(code, msg) {
         super(msg);
         this.code = code;
     }
     static new() {
-        return new MitumError(code_1.ECODE.UNKNOWN);
+        return new MitumError(ECODE.UNKNOWN);
     }
     static detail(code, msg) {
-        return new MitumError(code ?? code_1.ECODE.UNKNOWN, msg);
+        return new MitumError(code ?? ECODE.UNKNOWN, msg);
     }
 }
-exports.MitumError = MitumError;
-class Assert {
+export class Assert {
+    condition;
+    error;
     constructor(condition, error) {
         this.condition = condition;
         this.error = error;
@@ -42,8 +41,10 @@ class Assert {
         }
     }
 }
-exports.Assert = Assert;
-class StringAssert {
+export class StringAssert {
+    s;
+    condition;
+    error;
     constructor(s, error) {
         this.s = s;
         this.error = error;
@@ -100,5 +101,4 @@ class StringAssert {
         }
     }
 }
-exports.StringAssert = StringAssert;
 //# sourceMappingURL=assert.js.map

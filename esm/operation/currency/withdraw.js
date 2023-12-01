@@ -1,21 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.WithdrawFact = exports.WithdrawItem = void 0;
-const item_1 = require("./item");
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-const key_1 = require("../../key");
-const utils_1 = require("../../utils");
-const error_1 = require("../../error");
-class WithdrawItem extends item_1.CurrencyItem {
+import { CurrencyItem } from "./item";
+import { OperationFact } from "../base";
+import { HINT } from "../../alias";
+import { Address } from "../../key";
+import { SortFunc } from "../../utils";
+import { Assert, ECODE, MitumError } from "../../error";
+export class WithdrawItem extends CurrencyItem {
+    target;
     constructor(target, amounts) {
-        super(alias_1.HINT.CURRENCY.WITHDRAW.ITEM, amounts);
-        this.target = typeof target === "string" ? new key_1.Address(target) : target;
+        super(HINT.CURRENCY.WITHDRAW.ITEM, amounts);
+        this.target = typeof target === "string" ? new Address(target) : target;
     }
     toBuffer() {
         return Buffer.concat([
             this.target.toBuffer(),
-            Buffer.concat(this.amounts.sort(utils_1.SortFunc).map(am => am.toBuffer())),
+            Buffer.concat(this.amounts.sort(SortFunc).map(am => am.toBuffer())),
         ]);
     }
     toHintedObject() {
@@ -28,16 +26,14 @@ class WithdrawItem extends item_1.CurrencyItem {
         return this.target.toString();
     }
 }
-exports.WithdrawItem = WithdrawItem;
-class WithdrawFact extends base_1.OperationFact {
+export class WithdrawFact extends OperationFact {
     constructor(token, sender, items) {
-        super(alias_1.HINT.CURRENCY.WITHDRAW.FACT, token, sender, items);
-        error_1.Assert.check(new Set(items.map(it => it.toString())).size === items.length, error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "duplicate target found in items"));
-        this.items.forEach(it => error_1.Assert.check(this.sender.toString() != it.target.toString(), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "sender is same with target address")));
+        super(HINT.CURRENCY.WITHDRAW.FACT, token, sender, items);
+        Assert.check(new Set(items.map(it => it.toString())).size === items.length, MitumError.detail(ECODE.INVALID_ITEMS, "duplicate target found in items"));
+        this.items.forEach(it => Assert.check(this.sender.toString() != it.target.toString(), MitumError.detail(ECODE.INVALID_ITEMS, "sender is same with target address")));
     }
     get operationHint() {
-        return alias_1.HINT.CURRENCY.WITHDRAW.OPERATION;
+        return HINT.CURRENCY.WITHDRAW.OPERATION;
     }
 }
-exports.WithdrawFact = WithdrawFact;
 //# sourceMappingURL=withdraw.js.map
