@@ -1,15 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SignFact = exports.SignItem = void 0;
-const item_1 = require("./item");
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-const types_1 = require("../../types");
-const error_1 = require("../../error");
-class SignItem extends item_1.NFTItem {
+import { NFTItem } from "./item";
+import { OperationFact } from "../base";
+import { HINT } from "../../alias";
+import { Big } from "../../types";
+import { Assert, ECODE, MitumError } from "../../error";
+export class SignItem extends NFTItem {
+    nft;
     constructor(contract, nft, currency) {
-        super(alias_1.HINT.NFT.SIGN.ITEM, contract, currency);
-        this.nft = types_1.Big.from(nft);
+        super(HINT.NFT.SIGN.ITEM, contract, currency);
+        this.nft = Big.from(nft);
     }
     toBuffer() {
         return Buffer.concat([
@@ -25,15 +23,13 @@ class SignItem extends item_1.NFTItem {
         };
     }
 }
-exports.SignItem = SignItem;
-class SignFact extends base_1.OperationFact {
+export class SignFact extends OperationFact {
     constructor(token, sender, items) {
-        super(alias_1.HINT.NFT.SIGN.FACT, token, sender, items);
-        this.items.forEach(it => error_1.Assert.check(this.sender.toString() != it.contract.toString(), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "sender is same with contract address")));
+        super(HINT.NFT.SIGN.FACT, token, sender, items);
+        this.items.forEach(it => Assert.check(this.sender.toString() != it.contract.toString(), MitumError.detail(ECODE.INVALID_ITEMS, "sender is same with contract address")));
     }
     get operationHint() {
-        return alias_1.HINT.NFT.SIGN.OPERATION;
+        return HINT.NFT.SIGN.OPERATION;
     }
 }
-exports.SignFact = SignFact;
 //# sourceMappingURL=sign.js.map

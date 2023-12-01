@@ -1,11 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Generator = void 0;
-const string_1 = require("./string");
-class Generator {
+import { IP } from "./string";
+export class Generator {
+    _networkID;
+    _api;
     constructor(networkID, api) {
         this._networkID = networkID;
-        this._api = api ? string_1.IP.from(api) : undefined;
+        this._api = api ? IP.from(api) : undefined;
     }
     /**
      * @deprecated use setNetworkID(networkID: string)
@@ -23,7 +22,7 @@ class Generator {
         this.setAPI(api);
     }
     setAPI(api) {
-        this._api = api ? string_1.IP.from(api) : undefined;
+        this._api = api ? IP.from(api) : undefined;
     }
     get networkID() {
         return this._networkID;
@@ -32,5 +31,4 @@ class Generator {
         return this._api ? this._api.toString() : "";
     }
 }
-exports.Generator = Generator;
 //# sourceMappingURL=generator.js.map

@@ -1,13 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateCurrencyFact = void 0;
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-const common_1 = require("../../common");
-class UpdateCurrencyFact extends base_1.NodeFact {
+import { NodeFact } from "../base";
+import { HINT } from "../../alias";
+import { CurrencyID } from "../../common";
+export class UpdateCurrencyFact extends NodeFact {
+    currency;
+    policy;
     constructor(token, currency, policy) {
-        super(alias_1.HINT.CURRENCY.UPDATE_CURRENCY.FACT, token);
-        this.currency = common_1.CurrencyID.from(currency);
+        super(HINT.CURRENCY.UPDATE_CURRENCY.FACT, token);
+        this.currency = CurrencyID.from(currency);
         this.policy = policy;
         this._hash = this.hashing();
     }
@@ -26,8 +25,7 @@ class UpdateCurrencyFact extends base_1.NodeFact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.CURRENCY.UPDATE_CURRENCY.OPERATION;
+        return HINT.CURRENCY.UPDATE_CURRENCY.OPERATION;
     }
 }
-exports.UpdateCurrencyFact = UpdateCurrencyFact;
 //# sourceMappingURL=update-currency.js.map

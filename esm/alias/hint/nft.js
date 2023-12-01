@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     NFT_ID: "mitum-nft-nft-id",
     DESIGN: "mitum-nft-design",
     POLICY: "mitum-nft-collection-policy",

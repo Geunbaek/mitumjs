@@ -1,10 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Item = void 0;
-const common_1 = require("../../common");
-class Item {
+import { Hint } from "../../common";
+export class Item {
+    hint;
     constructor(hint) {
-        this.hint = new common_1.Hint(hint);
+        this.hint = new Hint(hint);
     }
     toHintedObject() {
         return {
@@ -12,5 +10,4 @@ class Item {
         };
     }
 }
-exports.Item = Item;
 //# sourceMappingURL=item.js.map

@@ -1,28 +1,23 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const currency_1 = __importDefault(require("./currency"));
-const nft_1 = __importDefault(require("./nft"));
-const credential_1 = __importDefault(require("./credential"));
-const dao_1 = __importDefault(require("./dao"));
-const kyc_1 = __importDefault(require("./kyc"));
-const sto_1 = __importDefault(require("./sto"));
-const timestamp_1 = __importDefault(require("./timestamp"));
-const token_1 = __importDefault(require("./token"));
-const point_1 = __importDefault(require("./point"));
-exports.default = {
-    currency: currency_1.default,
+import currency from "./currency";
+import nft from "./nft";
+import credential from "./credential";
+import dao from "./dao";
+import kyc from "./kyc";
+import sto from "./sto";
+import timestamp from "./timestamp";
+import token from "./token";
+import point from "./point";
+export default {
+    currency,
     contract: {
-        nft: nft_1.default,
-        credential: credential_1.default,
-        dao: dao_1.default,
-        kyc: kyc_1.default,
-        sto: sto_1.default,
-        timestamp: timestamp_1.default,
-        token: token_1.default,
-        point: point_1.default,
+        nft,
+        credential,
+        dao,
+        kyc,
+        sto,
+        timestamp,
+        token,
+        point,
     },
 };
 //# sourceMappingURL=index.js.map

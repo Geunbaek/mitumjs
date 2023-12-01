@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     CREATE_SERVICE: {
         FACT: "mitum-timestamp-create-service-operation-fact",
         OPERATION: "mitum-timestamp-create-service-operation",

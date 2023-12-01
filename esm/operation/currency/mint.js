@@ -1,17 +1,16 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.MintFact = exports.MintItem = void 0;
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-const node_1 = require("../../node");
-const key_1 = require("../../key");
-const utils_1 = require("../../utils");
-const error_1 = require("../../error");
-class MintItem extends base_1.Item {
+import { Item, NodeFact } from "../base";
+import { HINT } from "../../alias";
+import { Config } from "../../node";
+import { Address } from "../../key";
+import { SortFunc } from "../../utils";
+import { Assert, ECODE, MitumError } from "../../error";
+export class MintItem extends Item {
+    amount;
+    receiver;
     constructor(receiver, amount) {
-        super(alias_1.HINT.CURRENCY.MINT.ITEM);
+        super(HINT.CURRENCY.MINT.ITEM);
         this.amount = amount;
-        this.receiver = key_1.Address.from(receiver);
+        this.receiver = Address.from(receiver);
     }
     toBuffer() {
         return Buffer.concat([
@@ -30,30 +29,29 @@ class MintItem extends base_1.Item {
         return `${this.receiver.toString()}-${this.amount.currency.toString()}`;
     }
 }
-exports.MintItem = MintItem;
-class MintFact extends base_1.NodeFact {
+export class MintFact extends NodeFact {
+    items;
     constructor(token, items) {
-        super(alias_1.HINT.CURRENCY.MINT.FACT, token);
-        error_1.Assert.check(node_1.Config.ITEMS_IN_FACT.satisfy(items.length), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "items length out of range"));
-        error_1.Assert.check(new Set(items.map(it => it.toString())).size === items.length, error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "duplicate receiver-currency found in items"));
+        super(HINT.CURRENCY.MINT.FACT, token);
+        Assert.check(Config.ITEMS_IN_FACT.satisfy(items.length), MitumError.detail(ECODE.INVALID_ITEMS, "items length out of range"));
+        Assert.check(new Set(items.map(it => it.toString())).size === items.length, MitumError.detail(ECODE.INVALID_ITEMS, "duplicate receiver-currency found in items"));
         this.items = items;
         this._hash = this.hashing();
     }
     toBuffer() {
         return Buffer.concat([
             super.toBuffer(),
-            Buffer.concat(this.items.sort(utils_1.SortFunc).map(it => it.toBuffer())),
+            Buffer.concat(this.items.sort(SortFunc).map(it => it.toBuffer())),
         ]);
     }
     toHintedObject() {
         return {
             ...super.toHintedObject(),
-            items: this.items.sort(utils_1.SortFunc).map(it => it.toHintedObject()),
+            items: this.items.sort(SortFunc).map(it => it.toHintedObject()),
         };
     }
     get operationHint() {
-        return alias_1.HINT.CURRENCY.MINT.OPERATION;
+        return HINT.CURRENCY.MINT.OPERATION;
     }
 }
-exports.MintFact = MintFact;
 //# sourceMappingURL=mint.js.map

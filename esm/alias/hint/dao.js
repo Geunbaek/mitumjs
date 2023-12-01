@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     DESIGN: "mitum-dao-design",
     POLICY: "mitum-dao-policy",
     CALLDATA: {

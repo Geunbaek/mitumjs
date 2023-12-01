@@ -14,11 +14,11 @@ import { Generator, HintedObject, IP } from "../types";
 import * as Base from "./base";
 export declare class Operation extends Generator {
     constructor(networkID: string, api?: string | IP);
-    getAllOperations(): Promise<any>;
-    getOperation(hash: string): Promise<any>;
+    getAllOperations(): Promise<import("axios").AxiosResponse<any, any>>;
+    getOperation(hash: string): Promise<import("axios").AxiosResponse<any, any>>;
     sign(privatekey: string | Key | KeyPair, operation: OP<Fact>, option?: SignOption): OP<Fact>;
     send(operation: string | HintedObject, headers?: {
         [i: string]: any;
-    }): Promise<any>;
+    }): Promise<import("axios").AxiosResponse<any, any>>;
 }
 export { Currency, Account, Contract, NFT, Credential, DAO, STO, KYC, TimeStamp, Token, Point, Signer, Base, };

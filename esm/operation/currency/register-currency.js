@@ -1,11 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterCurrencyFact = void 0;
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-class RegisterCurrencyFact extends base_1.NodeFact {
+import { NodeFact } from "../base";
+import { HINT } from "../../alias";
+export class RegisterCurrencyFact extends NodeFact {
+    design;
     constructor(token, design) {
-        super(alias_1.HINT.CURRENCY.REGISTER_CURRENCY.FACT, token);
+        super(HINT.CURRENCY.REGISTER_CURRENCY.FACT, token);
         this.design = design;
         this._hash = this.hashing();
     }
@@ -22,8 +20,7 @@ class RegisterCurrencyFact extends base_1.NodeFact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.CURRENCY.REGISTER_CURRENCY.OPERATION;
+        return HINT.CURRENCY.REGISTER_CURRENCY.OPERATION;
     }
 }
-exports.RegisterCurrencyFact = RegisterCurrencyFact;
 //# sourceMappingURL=register-currency.js.map

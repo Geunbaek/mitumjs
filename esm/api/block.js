@@ -1,20 +1,15 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
-const types_1 = require("../types");
+import axios from "axios";
+import { Big, IP } from "../types";
 async function getBlocks(api) {
-    return await axios_1.default.get(`${types_1.IP.from(api).toString()}/block/manifests`);
+    return await axios.get(`${IP.from(api).toString()}/block/manifests`);
 }
 async function getBlockByHeight(api, height) {
-    return await axios_1.default.get(`${types_1.IP.from(api).toString()}/block/${types_1.Big.from(height).toString()}/manifest`);
+    return await axios.get(`${IP.from(api).toString()}/block/${Big.from(height).toString()}/manifest`);
 }
 async function getBlockByHash(api, hash) {
-    return await axios_1.default.get(`${types_1.IP.from(api).toString()}/block/${hash}/manifest`);
+    return await axios.get(`${IP.from(api).toString()}/block/${hash}/manifest`);
 }
-exports.default = {
+export default {
     getBlocks,
     getBlockByHeight,
     getBlockByHash,

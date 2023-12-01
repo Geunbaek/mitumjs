@@ -1,20 +1,21 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Signers = exports.Signer = void 0;
-const alias_1 = require("../../alias");
-const common_1 = require("../../common");
-const node_1 = require("../../node");
-const key_1 = require("../../key");
-const utils_1 = require("../../utils");
-const error_1 = require("../../error");
-const types_1 = require("../../types");
-class Signer {
+import { HINT } from "../../alias";
+import { Hint } from "../../common";
+import { Config } from "../../node";
+import { Address } from "../../key";
+import { SortFunc } from "../../utils";
+import { Assert, ECODE, MitumError } from "../../error";
+import { Big, Bool } from "../../types";
+export class Signer {
+    hint;
+    account;
+    share;
+    signed;
     constructor(account, share, signed) {
-        this.hint = new common_1.Hint(alias_1.HINT.NFT.SIGNER);
-        this.account = key_1.Address.from(account);
-        this.share = types_1.Big.from(share);
-        this.signed = types_1.Bool.from(signed);
-        error_1.Assert.check(node_1.Config.NFT.SHARE.satisfy(this.share.v), error_1.MitumError.detail(error_1.ECODE.NFT.INVALID_NFT_SIGNER, "share out of range"));
+        this.hint = new Hint(HINT.NFT.SIGNER);
+        this.account = Address.from(account);
+        this.share = Big.from(share);
+        this.signed = Bool.from(signed);
+        Assert.check(Config.NFT.SHARE.satisfy(this.share.v), MitumError.detail(ECODE.NFT.INVALID_NFT_SIGNER, "share out of range"));
     }
     toBuffer() {
         return Buffer.concat([
@@ -32,27 +33,28 @@ class Signer {
         };
     }
 }
-exports.Signer = Signer;
-class Signers {
+export class Signers {
+    hint;
+    total;
+    signers;
     constructor(total, signers) {
-        this.hint = new common_1.Hint(alias_1.HINT.NFT.SIGNERS);
-        this.total = types_1.Big.from(total);
+        this.hint = new Hint(HINT.NFT.SIGNERS);
+        this.total = Big.from(total);
         this.signers = signers;
-        error_1.Assert.check(node_1.Config.NFT.SIGNERS_IN_SIGNERS.satisfy(this.signers.length), error_1.MitumError.detail(error_1.ECODE.NFT.INVALID_NFT_SIGNERS, "signers length out of range"));
+        Assert.check(Config.NFT.SIGNERS_IN_SIGNERS.satisfy(this.signers.length), MitumError.detail(ECODE.NFT.INVALID_NFT_SIGNERS, "signers length out of range"));
     }
     toBuffer() {
         return Buffer.concat([
             this.total.toBuffer("fill"),
-            Buffer.concat(this.signers.sort(utils_1.SortFunc).map(s => s.toBuffer())),
+            Buffer.concat(this.signers.sort(SortFunc).map(s => s.toBuffer())),
         ]);
     }
     toHintedObject() {
         return {
             _hint: this.hint.toString(),
             total: this.total.v,
-            signers: this.signers.sort(utils_1.SortFunc).map(s => s.toHintedObject()),
+            signers: this.signers.sort(SortFunc).map(s => s.toHintedObject()),
         };
     }
 }
-exports.Signers = Signers;
 //# sourceMappingURL=signer.js.map

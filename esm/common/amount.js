@@ -1,17 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Amount = void 0;
-const hint_1 = require("./hint");
-const id_1 = require("./id");
-const alias_1 = require("../alias");
-const error_1 = require("../error");
-const types_1 = require("../types");
-class Amount {
+import { Hint } from "./hint";
+import { CurrencyID } from "./id";
+import { HINT } from "../alias";
+import { Assert, ECODE, MitumError } from "../error";
+import { Big } from "../types";
+export class Amount {
+    hint;
+    currency;
+    big;
     constructor(currency, big) {
-        this.hint = new hint_1.Hint(alias_1.HINT.CURRENCY.AMOUNT);
-        this.currency = id_1.CurrencyID.from(currency);
-        this.big = types_1.Big.from(big);
-        error_1.Assert.check(0 < this.big.big, error_1.MitumError.detail(error_1.ECODE.INVALID_AMOUNT, "zero big"));
+        this.hint = new Hint(HINT.CURRENCY.AMOUNT);
+        this.currency = CurrencyID.from(currency);
+        this.big = Big.from(big);
+        Assert.check(0 < this.big.big, MitumError.detail(ECODE.INVALID_AMOUNT, "zero big"));
     }
     toBuffer() {
         return Buffer.concat([
@@ -27,5 +27,4 @@ class Amount {
         };
     }
 }
-exports.Amount = Amount;
 //# sourceMappingURL=amount.js.map

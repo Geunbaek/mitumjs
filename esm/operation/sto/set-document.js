@@ -1,11 +1,11 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SetDocumentFact = void 0;
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-class SetDocumentFact extends base_1.ContractFact {
+import { ContractFact } from "../base";
+import { HINT } from "../../alias";
+export class SetDocumentFact extends ContractFact {
+    title;
+    uri;
+    documentHash;
     constructor(token, sender, contract, title, uri, documentHash, currency) {
-        super(alias_1.HINT.STO.SET_DOCUMENT.FACT, token, sender, contract, currency);
+        super(HINT.STO.SET_DOCUMENT.FACT, token, sender, contract, currency);
         this.title = title;
         this.uri = uri;
         this.documentHash = documentHash;
@@ -29,8 +29,7 @@ class SetDocumentFact extends base_1.ContractFact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.STO.SET_DOCUMENT.OPERATION;
+        return HINT.STO.SET_DOCUMENT.OPERATION;
     }
 }
-exports.SetDocumentFact = SetDocumentFact;
 //# sourceMappingURL=set-document.js.map

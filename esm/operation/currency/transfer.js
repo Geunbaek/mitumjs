@@ -1,21 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TransferFact = exports.TransferItem = void 0;
-const item_1 = require("./item");
-const base_1 = require("../base");
-const utils_1 = require("../../utils");
-const alias_1 = require("../../alias");
-const key_1 = require("../../key");
-const error_1 = require("../../error");
-class TransferItem extends item_1.CurrencyItem {
+import { CurrencyItem } from "./item";
+import { OperationFact } from "../base";
+import { SortFunc } from "../../utils";
+import { HINT, SUFFIX } from "../../alias";
+import { Address, ZeroAddress } from "../../key";
+import { Assert, ECODE, MitumError } from "../../error";
+export class TransferItem extends CurrencyItem {
+    receiver;
     constructor(receiver, amounts) {
-        super(alias_1.HINT.CURRENCY.TRANSFER.ITEM, amounts);
+        super(HINT.CURRENCY.TRANSFER.ITEM, amounts);
         if (typeof receiver === "string") {
-            if (receiver.endsWith(alias_1.SUFFIX.ADDRESS.ZERO)) {
-                this.receiver = new key_1.ZeroAddress(receiver);
+            if (receiver.endsWith(SUFFIX.ADDRESS.ZERO)) {
+                this.receiver = new ZeroAddress(receiver);
             }
             else {
-                this.receiver = new key_1.Address(receiver);
+                this.receiver = new Address(receiver);
             }
         }
         else {
@@ -23,14 +21,14 @@ class TransferItem extends item_1.CurrencyItem {
         }
         if (this.receiver.type === "zero") {
             for (const am of amounts) {
-                error_1.Assert.check(am.currency.equal(this.receiver.currency), error_1.MitumError.detail(error_1.ECODE.INVALID_AMOUNT, "invalid amount currency for given zero address"));
+                Assert.check(am.currency.equal(this.receiver.currency), MitumError.detail(ECODE.INVALID_AMOUNT, "invalid amount currency for given zero address"));
             }
         }
     }
     toBuffer() {
         return Buffer.concat([
             this.receiver.toBuffer(),
-            Buffer.concat(this.amounts.sort(utils_1.SortFunc).map(am => am.toBuffer())),
+            Buffer.concat(this.amounts.sort(SortFunc).map(am => am.toBuffer())),
         ]);
     }
     toHintedObject() {
@@ -43,16 +41,14 @@ class TransferItem extends item_1.CurrencyItem {
         return this.receiver.toString();
     }
 }
-exports.TransferItem = TransferItem;
-class TransferFact extends base_1.OperationFact {
+export class TransferFact extends OperationFact {
     constructor(token, sender, items) {
-        super(alias_1.HINT.CURRENCY.TRANSFER.FACT, token, sender, items);
-        error_1.Assert.check(new Set(items.map(it => it.toString())).size === items.length, error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "duplicate receiver found in items"));
-        this.items.forEach(it => error_1.Assert.check(this.sender.toString() != it.receiver.toString(), error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "sender is same with receiver address")));
+        super(HINT.CURRENCY.TRANSFER.FACT, token, sender, items);
+        Assert.check(new Set(items.map(it => it.toString())).size === items.length, MitumError.detail(ECODE.INVALID_ITEMS, "duplicate receiver found in items"));
+        this.items.forEach(it => Assert.check(this.sender.toString() != it.receiver.toString(), MitumError.detail(ECODE.INVALID_ITEMS, "sender is same with receiver address")));
     }
     get operationHint() {
-        return alias_1.HINT.CURRENCY.TRANSFER.OPERATION;
+        return HINT.CURRENCY.TRANSFER.OPERATION;
     }
 }
-exports.TransferFact = TransferFact;
 //# sourceMappingURL=transfer.js.map

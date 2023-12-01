@@ -1,6 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SortFunc = void 0;
-const SortFunc = (a, b) => Buffer.compare(a.toBuffer(), b.toBuffer());
-exports.SortFunc = SortFunc;
+export const SortFunc = (a, b) => Buffer.compare(a.toBuffer(), b.toBuffer());
 //# sourceMappingURL=sort.js.map

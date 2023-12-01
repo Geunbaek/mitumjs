@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ECODE = void 0;
-exports.ECODE = {
+export const ECODE = {
     NO_API: "EC_NO_API",
     UNKNOWN: "EC_UNKNOWN",
     EMPTY_STRING: "EC_EMPTY_STRING",

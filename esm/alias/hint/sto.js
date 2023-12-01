@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     CREATE_SECURITY_TOKEN: {
         ITEM: "mitum-sto-create-security-token-item",
         FACT: "mitum-sto-create-security-token-operation-fact",

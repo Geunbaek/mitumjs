@@ -1,18 +1,18 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RegisterTokenFact = void 0;
-const fact_1 = require("./fact");
-const alias_1 = require("../../alias");
-const common_1 = require("../../common");
-const types_1 = require("../../types");
-const error_1 = require("../../error");
-class RegisterTokenFact extends fact_1.TokenFact {
+import { TokenFact } from "./fact";
+import { HINT } from "../../alias";
+import { CurrencyID } from "../../common";
+import { Big, LongString } from "../../types";
+import { Assert, ECODE, MitumError } from "../../error";
+export class RegisterTokenFact extends TokenFact {
+    symbol;
+    name;
+    initialSupply;
     constructor(token, sender, contract, currency, symbol, name, initialSupply) {
-        super(alias_1.HINT.TOKEN.REGISTER_TOKEN.FACT, token, sender, contract, currency);
-        this.symbol = common_1.CurrencyID.from(symbol);
-        this.name = types_1.LongString.from(name);
-        this.initialSupply = types_1.Big.from(initialSupply);
-        error_1.Assert.check(this.initialSupply.compare(0) > 0, error_1.MitumError.detail(error_1.ECODE.INVALID_FACT, "initialSupply under zero"));
+        super(HINT.TOKEN.REGISTER_TOKEN.FACT, token, sender, contract, currency);
+        this.symbol = CurrencyID.from(symbol);
+        this.name = LongString.from(name);
+        this.initialSupply = Big.from(initialSupply);
+        Assert.check(this.initialSupply.compare(0) > 0, MitumError.detail(ECODE.INVALID_FACT, "initialSupply under zero"));
         this._hash = this.hashing();
     }
     toBuffer() {
@@ -32,8 +32,7 @@ class RegisterTokenFact extends fact_1.TokenFact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.TOKEN.REGISTER_TOKEN.OPERATION;
+        return HINT.TOKEN.REGISTER_TOKEN.OPERATION;
     }
 }
-exports.RegisterTokenFact = RegisterTokenFact;
 //# sourceMappingURL=register-token.js.map

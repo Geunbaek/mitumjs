@@ -1,30 +1,29 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ZeroAddress = exports.NodeAddress = exports.Address = void 0;
-const alias_1 = require("../alias");
-const node_1 = require("../node");
-const common_1 = require("../common");
-const error_1 = require("../error");
+import { SUFFIX } from "../alias";
+import { Config } from "../node";
+import { CurrencyID } from "../common";
+import { ECODE, MitumError, StringAssert } from "../error";
 class BaseAddress {
+    s;
+    type;
     constructor(s, type) {
         this.s = s;
         if (type) {
             this.type = type;
         }
-        else if (this.s.endsWith(alias_1.SUFFIX.ADDRESS.MITUM)) {
+        else if (this.s.endsWith(SUFFIX.ADDRESS.MITUM)) {
             this.type = "mitum";
         }
-        else if (this.s.endsWith(alias_1.SUFFIX.ADDRESS.ETHER)) {
+        else if (this.s.endsWith(SUFFIX.ADDRESS.ETHER)) {
             this.type = "ether";
         }
-        else if (this.s.endsWith(alias_1.SUFFIX.ADDRESS.NODE)) {
+        else if (this.s.endsWith(SUFFIX.ADDRESS.NODE)) {
             this.type = "node";
         }
-        else if (this.s.endsWith(alias_1.SUFFIX.ADDRESS.ZERO)) {
+        else if (this.s.endsWith(SUFFIX.ADDRESS.ZERO)) {
             this.type = "zero";
         }
         else {
-            throw error_1.MitumError.detail(error_1.ECODE.INVALID_ADDRESS, "address type not detected");
+            throw MitumError.detail(ECODE.INVALID_ADDRESS, "address type not detected");
         }
     }
     toBuffer() {
@@ -34,47 +33,45 @@ class BaseAddress {
         return this.s;
     }
 }
-class Address extends BaseAddress {
+export class Address extends BaseAddress {
     constructor(s) {
         super(s);
-        error_1.StringAssert.with(s, error_1.MitumError.detail(error_1.ECODE.INVALID_ADDRESS, "invalid address"))
+        StringAssert.with(s, MitumError.detail(ECODE.INVALID_ADDRESS, "invalid address"))
             .empty().not()
-            .endsWith(alias_1.SUFFIX.ADDRESS.MITUM, alias_1.SUFFIX.ADDRESS.ETHER)
-            .satisfyConfig(node_1.Config.ADDRESS.DEFAULT)
+            .endsWith(SUFFIX.ADDRESS.MITUM, SUFFIX.ADDRESS.ETHER)
+            .satisfyConfig(Config.ADDRESS.DEFAULT)
             .excute();
     }
     static from(s) {
         return s instanceof Address ? s : new Address(s);
     }
 }
-exports.Address = Address;
-class NodeAddress extends BaseAddress {
+export class NodeAddress extends BaseAddress {
     constructor(s) {
         super(s, "node");
-        error_1.StringAssert.with(s, error_1.MitumError.detail(error_1.ECODE.INVALID_ADDRESS, "invalid node address"))
+        StringAssert.with(s, MitumError.detail(ECODE.INVALID_ADDRESS, "invalid node address"))
             .empty().not()
-            .endsWith(alias_1.SUFFIX.ADDRESS.NODE)
-            .satisfyConfig(node_1.Config.ADDRESS.NODE)
+            .endsWith(SUFFIX.ADDRESS.NODE)
+            .satisfyConfig(Config.ADDRESS.NODE)
             .excute();
     }
     static from(s) {
         return s instanceof NodeAddress ? s : new NodeAddress(s);
     }
 }
-exports.NodeAddress = NodeAddress;
-class ZeroAddress extends BaseAddress {
+export class ZeroAddress extends BaseAddress {
+    currency;
     constructor(s) {
         super(s, "zero");
-        error_1.StringAssert.with(s, error_1.MitumError.detail(error_1.ECODE.INVALID_ADDRESS, "invalid zero address"))
+        StringAssert.with(s, MitumError.detail(ECODE.INVALID_ADDRESS, "invalid zero address"))
             .empty().not()
-            .endsWith(alias_1.SUFFIX.ADDRESS.ZERO)
-            .satisfyConfig(node_1.Config.ADDRESS.ZERO)
+            .endsWith(SUFFIX.ADDRESS.ZERO)
+            .satisfyConfig(Config.ADDRESS.ZERO)
             .excute();
-        this.currency = new common_1.CurrencyID(s.substring(0, s.length - node_1.Config.SUFFIX.ZERO_ADDRESS.value));
+        this.currency = new CurrencyID(s.substring(0, s.length - Config.SUFFIX.ZERO_ADDRESS.value));
     }
     static from(s) {
         return s instanceof ZeroAddress ? s : new ZeroAddress(s);
     }
 }
-exports.ZeroAddress = ZeroAddress;
 //# sourceMappingURL=address.js.map

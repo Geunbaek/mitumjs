@@ -1,43 +1,55 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Mitum = void 0;
-const types_1 = require("./types");
-const node_1 = require("./node");
-const operation_1 = require("./operation");
-class Mitum extends types_1.Generator {
+import { Generator } from "./types";
+import { Block, Node, NetworkID } from "./node";
+import { Account, Currency, Contract, NFT, DAO, KYC, STO, TimeStamp, Credential, Token, Point, Operation, Signer, } from "./operation";
+export class Mitum extends Generator {
+    _node;
+    _account;
+    _currency;
+    _contract;
+    _block;
+    _operation;
+    _signer;
+    _nft;
+    _credential;
+    _timestamp;
+    _sto;
+    _kyc;
+    _dao;
+    _token;
+    _point;
     constructor(api) {
-        super(node_1.NetworkID.get(), api);
-        this._node = new node_1.Node(this.api);
-        this._account = new operation_1.Account(this.networkID, this.api);
-        this._currency = new operation_1.Currency(this.networkID, this.api);
-        this._block = new node_1.Block(this.api);
-        this._operation = new operation_1.Operation(this.networkID, this.api);
-        this._signer = new operation_1.Signer(this.networkID, this.api);
-        this._contract = new operation_1.Contract(this.networkID, this.api);
-        this._nft = new operation_1.NFT(this.networkID, this.api);
-        this._credential = new operation_1.Credential(this.networkID, this.api);
-        this._timestamp = new operation_1.TimeStamp(this.networkID, this.api);
-        this._sto = new operation_1.STO(this.networkID, this.api);
-        this._kyc = new operation_1.KYC(this.networkID, this.api);
-        this._dao = new operation_1.DAO(this.networkID, this.api);
-        this._token = new operation_1.Token(this.networkID, this.api);
-        this._point = new operation_1.Point(this.networkID, this.api);
+        super(NetworkID.get(), api);
+        this._node = new Node(this.api);
+        this._account = new Account(this.networkID, this.api);
+        this._currency = new Currency(this.networkID, this.api);
+        this._block = new Block(this.api);
+        this._operation = new Operation(this.networkID, this.api);
+        this._signer = new Signer(this.networkID, this.api);
+        this._contract = new Contract(this.networkID, this.api);
+        this._nft = new NFT(this.networkID, this.api);
+        this._credential = new Credential(this.networkID, this.api);
+        this._timestamp = new TimeStamp(this.networkID, this.api);
+        this._sto = new STO(this.networkID, this.api);
+        this._kyc = new KYC(this.networkID, this.api);
+        this._dao = new DAO(this.networkID, this.api);
+        this._token = new Token(this.networkID, this.api);
+        this._point = new Point(this.networkID, this.api);
     }
     refresh() {
-        this._node = new node_1.Node(this.api);
-        this._account = new operation_1.Account(this.networkID, this.api);
-        this._currency = new operation_1.Currency(this.networkID, this.api);
-        this._block = new node_1.Block(this.api);
-        this._operation = new operation_1.Operation(this.networkID, this.api);
-        this._contract = new operation_1.Contract(this.networkID, this.api);
-        this._nft = new operation_1.NFT(this.networkID, this.api);
-        this._credential = new operation_1.Credential(this.networkID, this.api);
-        this._timestamp = new operation_1.TimeStamp(this.networkID, this.api);
-        this._sto = new operation_1.STO(this.networkID, this.api);
-        this._kyc = new operation_1.KYC(this.networkID, this.api);
-        this._dao = new operation_1.DAO(this.networkID, this.api);
-        this._token = new operation_1.Token(this.networkID, this.api);
-        this._point = new operation_1.Point(this.networkID, this.api);
+        this._node = new Node(this.api);
+        this._account = new Account(this.networkID, this.api);
+        this._currency = new Currency(this.networkID, this.api);
+        this._block = new Block(this.api);
+        this._operation = new Operation(this.networkID, this.api);
+        this._contract = new Contract(this.networkID, this.api);
+        this._nft = new NFT(this.networkID, this.api);
+        this._credential = new Credential(this.networkID, this.api);
+        this._timestamp = new TimeStamp(this.networkID, this.api);
+        this._sto = new STO(this.networkID, this.api);
+        this._kyc = new KYC(this.networkID, this.api);
+        this._dao = new DAO(this.networkID, this.api);
+        this._token = new Token(this.networkID, this.api);
+        this._point = new Point(this.networkID, this.api);
     }
     get node() {
         return this._node;
@@ -111,6 +123,5 @@ class Mitum extends types_1.Generator {
         this.refresh();
     }
 }
-exports.Mitum = Mitum;
-exports.default = Mitum;
+export default Mitum;
 //# sourceMappingURL=index.js.map

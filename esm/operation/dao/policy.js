@@ -1,24 +1,34 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DAOPolicy = void 0;
-const alias_1 = require("../../alias");
-const common_1 = require("../../common");
-const types_1 = require("../../types");
-class DAOPolicy {
+import { HINT } from "../../alias";
+import { CurrencyID, Hint } from "../../common";
+import { Big } from "../../types";
+export class DAOPolicy {
+    hint;
+    token;
+    threshold;
+    fee;
+    whitelist;
+    proposalReviewPeriod;
+    registrationPeriod;
+    preSnapshotPeriod;
+    votingPeriod;
+    postSnapshotPeriod;
+    executionDelayPeriod;
+    turnout;
+    quorum;
     constructor(token, threshold, fee, whitelist, proposalReviewPeriod, registrationPeriod, preSnapshotPeriod, votingPeriod, postSnapshotPeriod, executionDelayPeriod, turnout, quorum) {
-        this.hint = new common_1.Hint(alias_1.HINT.DAO.POLICY);
-        this.token = common_1.CurrencyID.from(token);
-        this.threshold = types_1.Big.from(threshold);
+        this.hint = new Hint(HINT.DAO.POLICY);
+        this.token = CurrencyID.from(token);
+        this.threshold = Big.from(threshold);
         this.fee = fee,
             this.whitelist = whitelist;
-        this.proposalReviewPeriod = types_1.Big.from(proposalReviewPeriod);
-        this.registrationPeriod = types_1.Big.from(registrationPeriod);
-        this.preSnapshotPeriod = types_1.Big.from(preSnapshotPeriod);
-        this.votingPeriod = types_1.Big.from(votingPeriod);
-        this.postSnapshotPeriod = types_1.Big.from(postSnapshotPeriod);
-        this.executionDelayPeriod = types_1.Big.from(executionDelayPeriod);
-        this.turnout = types_1.Big.from(turnout);
-        this.quorum = types_1.Big.from(quorum);
+        this.proposalReviewPeriod = Big.from(proposalReviewPeriod);
+        this.registrationPeriod = Big.from(registrationPeriod);
+        this.preSnapshotPeriod = Big.from(preSnapshotPeriod);
+        this.votingPeriod = Big.from(votingPeriod);
+        this.postSnapshotPeriod = Big.from(postSnapshotPeriod);
+        this.executionDelayPeriod = Big.from(executionDelayPeriod);
+        this.turnout = Big.from(turnout);
+        this.quorum = Big.from(quorum);
     }
     toBuffer() {
         return Buffer.concat([
@@ -54,5 +64,4 @@ class DAOPolicy {
         };
     }
 }
-exports.DAOPolicy = DAOPolicy;
 //# sourceMappingURL=policy.js.map

@@ -1,18 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.TransferFact = void 0;
-const fact_1 = require("./fact");
-const types_1 = require("../../types");
-const alias_1 = require("../../alias");
-const key_1 = require("../../key");
-const error_1 = require("../../error");
-class TransferFact extends fact_1.PointFact {
+import { PointFact } from "./fact";
+import { Big } from "../../types";
+import { HINT } from "../../alias";
+import { Address } from "../../key";
+import { Assert, ECODE, MitumError } from "../../error";
+export class TransferFact extends PointFact {
+    receiver;
+    amount;
     constructor(token, sender, contract, currency, receiver, amount) {
-        super(alias_1.HINT.POINT.TRANSFER.FACT, token, sender, contract, currency);
-        this.receiver = key_1.Address.from(receiver);
-        this.amount = types_1.Big.from(amount);
-        error_1.Assert.check(this.contract.toString() !== this.receiver.toString(), error_1.MitumError.detail(error_1.ECODE.INVALID_FACT, "contract is same with receiver address"));
-        error_1.Assert.check(this.amount.compare(0) > 0, error_1.MitumError.detail(error_1.ECODE.INVALID_FACT, "zero amount"));
+        super(HINT.POINT.TRANSFER.FACT, token, sender, contract, currency);
+        this.receiver = Address.from(receiver);
+        this.amount = Big.from(amount);
+        Assert.check(this.contract.toString() !== this.receiver.toString(), MitumError.detail(ECODE.INVALID_FACT, "contract is same with receiver address"));
+        Assert.check(this.amount.compare(0) > 0, MitumError.detail(ECODE.INVALID_FACT, "zero amount"));
         this._hash = this.hashing();
     }
     toBuffer() {
@@ -30,8 +29,7 @@ class TransferFact extends fact_1.PointFact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.POINT.TRANSFER.OPERATION;
+        return HINT.POINT.TRANSFER.OPERATION;
     }
 }
-exports.TransferFact = TransferFact;
 //# sourceMappingURL=transfer.js.map

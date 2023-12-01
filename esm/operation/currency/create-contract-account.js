@@ -1,31 +1,27 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateContractAccountFact = exports.CreateContractAccountItem = void 0;
-const bs58_1 = __importDefault(require("bs58"));
-const item_1 = require("./item");
-const base_1 = require("../base");
-const utils_1 = require("../../utils");
-const alias_1 = require("../../alias");
-const error_1 = require("../../error");
-class CreateContractAccountItem extends item_1.CurrencyItem {
+import base58 from "bs58";
+import { CurrencyItem } from "./item";
+import { OperationFact } from "../base";
+import { SortFunc } from "../../utils";
+import { HINT, SUFFIX } from "../../alias";
+import { Assert, ECODE, MitumError } from "../../error";
+export class CreateContractAccountItem extends CurrencyItem {
+    keys;
+    addressSuffix;
     constructor(keys, amounts, addressType) {
-        super(alias_1.HINT.CURRENCY.CREATE_CONTRACT_ACCOUNT.ITEM, amounts, addressType);
+        super(HINT.CURRENCY.CREATE_CONTRACT_ACCOUNT.ITEM, amounts, addressType);
         this.keys = keys;
         if (addressType === "mitum") {
-            this.addressSuffix = alias_1.SUFFIX.ADDRESS.MITUM;
+            this.addressSuffix = SUFFIX.ADDRESS.MITUM;
         }
         else {
-            this.addressSuffix = alias_1.SUFFIX.ADDRESS.ETHER;
+            this.addressSuffix = SUFFIX.ADDRESS.ETHER;
         }
     }
     toBuffer() {
         return Buffer.concat([
             this.keys.toBuffer(),
             Buffer.from(this.addressSuffix),
-            Buffer.concat(this.amounts.sort(utils_1.SortFunc).map(am => am.toBuffer())),
+            Buffer.concat(this.amounts.sort(SortFunc).map(am => am.toBuffer())),
         ]);
     }
     toHintedObject() {
@@ -36,18 +32,16 @@ class CreateContractAccountItem extends item_1.CurrencyItem {
         };
     }
     toString() {
-        return bs58_1.default.encode(this.keys.toBuffer());
+        return base58.encode(this.keys.toBuffer());
     }
 }
-exports.CreateContractAccountItem = CreateContractAccountItem;
-class CreateContractAccountFact extends base_1.OperationFact {
+export class CreateContractAccountFact extends OperationFact {
     constructor(token, sender, items) {
-        super(alias_1.HINT.CURRENCY.CREATE_CONTRACT_ACCOUNT.FACT, token, sender, items);
-        error_1.Assert.check(new Set(items.map(it => it.toString())).size === items.length, error_1.MitumError.detail(error_1.ECODE.INVALID_ITEMS, "duplicate key hash found in items"));
+        super(HINT.CURRENCY.CREATE_CONTRACT_ACCOUNT.FACT, token, sender, items);
+        Assert.check(new Set(items.map(it => it.toString())).size === items.length, MitumError.detail(ECODE.INVALID_ITEMS, "duplicate key hash found in items"));
     }
     get operationHint() {
-        return alias_1.HINT.CURRENCY.CREATE_CONTRACT_ACCOUNT.OPERATION;
+        return HINT.CURRENCY.CREATE_CONTRACT_ACCOUNT.OPERATION;
     }
 }
-exports.CreateContractAccountFact = CreateContractAccountFact;
 //# sourceMappingURL=create-contract-account.js.map

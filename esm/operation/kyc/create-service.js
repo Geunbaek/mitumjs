@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateServiceFact = void 0;
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-class CreateServiceFact extends base_1.ContractFact {
+import { ContractFact } from "../base";
+import { HINT } from "../../alias";
+export class CreateServiceFact extends ContractFact {
     constructor(token, sender, contract, currency) {
-        super(alias_1.HINT.KYC.CREATE_SERVICE.FACT, token, sender, contract, currency);
+        super(HINT.KYC.CREATE_SERVICE.FACT, token, sender, contract, currency);
         this._hash = this.hashing();
     }
     toBuffer() {
@@ -15,8 +12,7 @@ class CreateServiceFact extends base_1.ContractFact {
         ]);
     }
     get operationHint() {
-        return alias_1.HINT.KYC.CREATE_SERVICE.OPERATION;
+        return HINT.KYC.CREATE_SERVICE.OPERATION;
     }
 }
-exports.CreateServiceFact = CreateServiceFact;
 //# sourceMappingURL=create-service.js.map

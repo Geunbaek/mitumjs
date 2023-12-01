@@ -1,8 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.compress = exports.privateKeyToPublicKey = void 0;
-const secp256k1_1 = require("@noble/secp256k1");
-const privateKeyToPublicKey = (privateKey) => {
+import { getPublicKey } from "@noble/secp256k1";
+export const privateKeyToPublicKey = (privateKey) => {
     let privateBuf;
     if (!Buffer.isBuffer(privateKey)) {
         if (typeof privateKey !== "string") {
@@ -15,10 +12,9 @@ const privateKeyToPublicKey = (privateKey) => {
     else {
         privateBuf = privateKey;
     }
-    return (0, secp256k1_1.getPublicKey)(privateBuf, false);
+    return getPublicKey(privateBuf, false);
 };
-exports.privateKeyToPublicKey = privateKeyToPublicKey;
-const compress = (publicKey) => {
+export const compress = (publicKey) => {
     const xCoordinate = publicKey.slice(1, 33);
     const yCoordinate = publicKey.slice(33);
     const compressedPublicKey = Buffer.concat([
@@ -27,5 +23,4 @@ const compress = (publicKey) => {
     ]);
     return compressedPublicKey.toString("hex");
 };
-exports.compress = compress;
 //# sourceMappingURL=converter.js.map

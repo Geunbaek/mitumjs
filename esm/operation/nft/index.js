@@ -1,73 +1,70 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.NFT = void 0;
-const create_collection_1 = require("./create-collection");
-const update_collection_policy_1 = require("./update-collection-policy");
-const mint_1 = require("./mint");
-const approve_1 = require("./approve");
-const delegate_1 = require("./delegate");
-const transfer_1 = require("./transfer");
-const sign_1 = require("./sign");
-const signer_1 = require("./signer");
-const base_1 = require("../base");
-const api_1 = require("../../api");
-const types_1 = require("../../types");
-const error_1 = require("../../error");
-class NFT extends base_1.ContractGenerator {
+import { CreateCollectionFact } from "./create-collection";
+import { UpdateCollectionPolicyFact } from "./update-collection-policy";
+import { MintItem, MintFact } from "./mint";
+import { ApproveItem, ApproveFact } from "./approve";
+import { DelegateItem, DelegateFact } from "./delegate";
+import { TransferItem, TransferFact } from "./transfer";
+import { SignItem, SignFact } from "./sign";
+import { Signer, Signers } from "./signer";
+import { ContractGenerator, Operation } from "../base";
+import { contract, getAPIData } from "../../api";
+import { Big, TimeStamp } from "../../types";
+import { Assert, ECODE, MitumError } from "../../error";
+export class NFT extends ContractGenerator {
     constructor(networkID, api) {
         super(networkID, api);
     }
     createCollection(contractAddr, sender, data, currency) {
         const keysToCheck = ['name', 'uri', 'royalty', 'whitelist'];
         keysToCheck.forEach((key) => {
-            error_1.Assert.check(data[key] !== undefined, error_1.MitumError.detail(error_1.ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the collectionData structure`));
+            Assert.check(data[key] !== undefined, MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the collectionData structure`));
         });
-        return new base_1.Operation(this.networkID, new create_collection_1.CreateCollectionFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, data.name, data.royalty, data.uri, data.whitelist, currency));
+        return new Operation(this.networkID, new CreateCollectionFact(TimeStamp.new().UTC(), sender, contractAddr, data.name, data.royalty, data.uri, data.whitelist, currency));
     }
     setPolicy(contractAddr, sender, data, currency) {
         const keysToCheck = ['name', 'uri', 'royalty', 'whitelist'];
         keysToCheck.forEach((key) => {
-            error_1.Assert.check(data[key] !== undefined, error_1.MitumError.detail(error_1.ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the collectionData structure`));
+            Assert.check(data[key] !== undefined, MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the collectionData structure`));
         });
-        return new base_1.Operation(this.networkID, new update_collection_policy_1.UpdateCollectionPolicyFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, data.name, data.royalty, data.uri, data.whitelist, currency));
+        return new Operation(this.networkID, new UpdateCollectionPolicyFact(TimeStamp.new().UTC(), sender, contractAddr, data.name, data.royalty, data.uri, data.whitelist, currency));
     }
     mint(contractAddr, sender, receiver, uri, hash, currency, creator) {
-        return new base_1.Operation(this.networkID, new mint_1.MintFact(types_1.TimeStamp.new().UTC(), sender, [new mint_1.MintItem(contractAddr, receiver, hash, uri, new signer_1.Signers(100, [new signer_1.Signer(creator, 100, false)]), currency)]));
+        return new Operation(this.networkID, new MintFact(TimeStamp.new().UTC(), sender, [new MintItem(contractAddr, receiver, hash, uri, new Signers(100, [new Signer(creator, 100, false)]), currency)]));
     }
     mintForMultiCreators(contractAddr, sender, receiver, uri, hash, currency, creators) {
         const keysToCheck = ['account', 'share'];
         keysToCheck.forEach((key) => {
             creators.forEach((creator) => {
-                error_1.Assert.check(creator[key] !== undefined, error_1.MitumError.detail(error_1.ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the Creator structure`));
+                Assert.check(creator[key] !== undefined, MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the Creator structure`));
             });
         });
-        return new base_1.Operation(this.networkID, new mint_1.MintFact(types_1.TimeStamp.new().UTC(), sender, [
-            new mint_1.MintItem(contractAddr, receiver, hash, uri, new signer_1.Signers(creators.reduce((prev, next) => prev + types_1.Big.from(next.share).v, 0), creators.map(a => new signer_1.Signer(a.account, a.share, false))), currency)
+        return new Operation(this.networkID, new MintFact(TimeStamp.new().UTC(), sender, [
+            new MintItem(contractAddr, receiver, hash, uri, new Signers(creators.reduce((prev, next) => prev + Big.from(next.share).v, 0), creators.map(a => new Signer(a.account, a.share, false))), currency)
         ]));
     }
     transfer(contractAddr, sender, receiver, nftID, currency) {
-        const fact = new transfer_1.TransferFact(types_1.TimeStamp.new().UTC(), sender, [
-            new transfer_1.TransferItem(contractAddr, receiver, nftID, currency)
+        const fact = new TransferFact(TimeStamp.new().UTC(), sender, [
+            new TransferItem(contractAddr, receiver, nftID, currency)
         ]);
-        return new base_1.Operation(this.networkID, fact);
+        return new Operation(this.networkID, fact);
     }
     approve(contractAddr, owner, operator, nftID, currency) {
-        return new base_1.Operation(this.networkID, new approve_1.ApproveFact(types_1.TimeStamp.new().UTC(), owner, [
-            new approve_1.ApproveItem(contractAddr, operator, nftID, currency)
+        return new Operation(this.networkID, new ApproveFact(TimeStamp.new().UTC(), owner, [
+            new ApproveItem(contractAddr, operator, nftID, currency)
         ]));
     }
     setApprovalForAll(contractAddr, owner, operator, mode, currency) {
-        return new base_1.Operation(this.networkID, new delegate_1.DelegateFact(types_1.TimeStamp.new().UTC(), owner, [
-            new delegate_1.DelegateItem(contractAddr, operator, mode, currency)
+        return new Operation(this.networkID, new DelegateFact(TimeStamp.new().UTC(), owner, [
+            new DelegateItem(contractAddr, operator, mode, currency)
         ]));
     }
     signNFT(contractAddr, creator, nftID, currency) {
-        return new base_1.Operation(this.networkID, new sign_1.SignFact(types_1.TimeStamp.new().UTC(), creator, [
-            new sign_1.SignItem(contractAddr, nftID, currency)
+        return new Operation(this.networkID, new SignFact(TimeStamp.new().UTC(), creator, [
+            new SignItem(contractAddr, nftID, currency)
         ]));
     }
     async getCollectionInfo(contractAddr) {
-        const data = await (0, api_1.getAPIData)(() => api_1.contract.nft.getCollection(this.api, contractAddr));
+        const data = await getAPIData(() => contract.nft.getCollection(this.api, contractAddr));
         return data ? data._embedded : null;
     }
     /**
@@ -78,30 +75,29 @@ class NFT extends base_1.ContractGenerator {
         return design ? design.policy : null;
     }
     async ownerOf(contractAddr, nftID) {
-        const data = await (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
         return data ? data._embedded.owner : null;
     }
     async getApproved(contractAddr, nftID) {
-        const data = await (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
         return data ? data._embedded.approved : null;
     }
     async totalSupply(contractAddr) {
-        const data = await (0, api_1.getAPIData)(() => api_1.contract.nft.getNFTs(this.api, contractAddr));
+        const data = await getAPIData(() => contract.nft.getNFTs(this.api, contractAddr));
         return data ? data._embedded.length : null;
     }
     async tokenURI(contractAddr, nftID) {
-        const data = await (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
         return data ? data._embedded.uri : null;
     }
     async isApprovedForAll(contractAddr, owner) {
-        return await (0, api_1.getAPIData)(() => api_1.contract.nft.getAccountOperators(this.api, contractAddr, owner));
+        return await getAPIData(() => contract.nft.getAccountOperators(this.api, contractAddr, owner));
     }
     async getNFTInfo(contractAddr, nftID) {
-        return await (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+        return await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
     }
     async getNFTs(contractAddr) {
-        return await (0, api_1.getAPIData)(() => api_1.contract.nft.getNFTs(this.api, contractAddr));
+        return await getAPIData(() => contract.nft.getNFTs(this.api, contractAddr));
     }
 }
-exports.NFT = NFT;
 //# sourceMappingURL=index.js.map

@@ -1,16 +1,16 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateKeyFact = void 0;
-const base_1 = require("../base");
-const alias_1 = require("../../alias");
-const common_1 = require("../../common");
-const key_1 = require("../../key");
-class UpdateKeyFact extends base_1.Fact {
+import { Fact } from "../base";
+import { HINT } from "../../alias";
+import { CurrencyID } from "../../common";
+import { Address } from "../../key";
+export class UpdateKeyFact extends Fact {
+    target;
+    keys;
+    currency;
     constructor(token, target, keys, currency) {
-        super(alias_1.HINT.CURRENCY.UPDATE_KEY.FACT, token);
-        this.target = key_1.Address.from(target);
+        super(HINT.CURRENCY.UPDATE_KEY.FACT, token);
+        this.target = Address.from(target);
         this.keys = keys;
-        this.currency = common_1.CurrencyID.from(currency);
+        this.currency = CurrencyID.from(currency);
         this._hash = this.hashing();
     }
     toBuffer() {
@@ -30,8 +30,7 @@ class UpdateKeyFact extends base_1.Fact {
         };
     }
     get operationHint() {
-        return alias_1.HINT.CURRENCY.UPDATE_KEY.OPERATION;
+        return HINT.CURRENCY.UPDATE_KEY.OPERATION;
     }
 }
-exports.UpdateKeyFact = UpdateKeyFact;
 //# sourceMappingURL=update-key.js.map
