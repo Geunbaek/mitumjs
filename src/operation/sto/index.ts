@@ -5,7 +5,7 @@ import { RevokeOperatorItem, RevokeOperatorFact } from "./revoke-operator"
 import { RedeemTokenItem, RedeemTokenFact } from "./redeem-token"
 import { SetDocumentFact } from "./set-document"
 import { TransferSecurityTokenPartitionItem, TransferSecurityTokenPartitionFact } from "./transfer-security-token-partition"
-
+import { contract, getAPIData } from "../../api"
 import { Partition } from "./partition"
 
 import { ContractGenerator, Operation } from "../base"
@@ -18,7 +18,6 @@ import { Assert, ECODE, MitumError } from "../../error"
 type createServiceData = {
     granularity: string | number | Big
     defaultPartition: string | Partition
-    controllers: (string | Address)[]
 }
 
 export class STO extends ContractGenerator {
@@ -59,7 +58,7 @@ export class STO extends ContractGenerator {
         data: createServiceData,
         currency: string | CurrencyID,
     ) {
-        const keysToCheck: (keyof createServiceData)[] = ['granularity', 'defaultPartition', 'controllers'];
+        const keysToCheck: (keyof createServiceData)[] = ['granularity', 'defaultPartition'];
         keysToCheck.forEach((key) => {
             Assert.check(data[key] !== undefined, 
             MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the createServiceData structure`))
@@ -74,7 +73,6 @@ export class STO extends ContractGenerator {
                         contractAddr,
                         data.granularity,
                         data.defaultPartition,
-                        data.controllers,
                         currency,
                     )
                 ]
@@ -206,5 +204,29 @@ export class STO extends ContractGenerator {
                 ]
             )
         )
+    }
+
+    async getServiceInfo(contractAddr: string | Address) {
+        return await getAPIData(() => contract.sto.getService(this.api, contractAddr))
+    }
+
+    async getPartitionsInfo(contractAddr: string | Address, holder: string | Address) {
+        return await getAPIData(() => contract.sto.getPartitions(this.api, contractAddr, holder))
+    }
+    
+    async getBalanceByHolder(contractAddr: string | Address, holder: string | Address, partition: string) {
+        return await getAPIData(() => contract.sto.getBalanceByHolder(this.api, contractAddr, holder, partition))
+    }
+
+    async getOperatorsByHolder(contractAddr: string | Address, holder: string | Address, partition: string) {
+        return await getAPIData(() => contract.sto.getOperatorsByHolder(this.api, contractAddr, holder, partition))
+    }
+
+    async getPartitionBalanceInfo(contractAddr: string | Address, partition: string) {
+        return await getAPIData(() => contract.sto.getPartitionBalance(this.api, contractAddr, partition))
+    }
+    
+    async getAuthorizedInfo(contractAddr: string | Address, operator: string | Address) {
+        return await getAPIData(() => contract.sto.getAuthorized(this.api, contractAddr, operator))
     }
 }
