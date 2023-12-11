@@ -51,6 +51,10 @@ export declare class Account extends KeyG {
         wallet: AccountType;
         operation: Operation<CreateAccountFact>;
     };
+    createBatchWallet(sender: string | Address, n: number, currency: string | CurrencyID, amount: string | number | Big): {
+        wallet: AccountType[];
+        operation: Operation<CreateAccountFact>;
+    };
     createAccount(sender: string | Address, key: string | Key | PubKey, currency: string | CurrencyID, amount: string | number | Big): Operation<CreateAccountFact>;
     createEtherAccount(sender: string | Address, key: string | Key | PubKey, currency: string | CurrencyID, amount: string | number | Big): Operation<CreateAccountFact>;
     createMultiSig(sender: string | Address, keys: keysType, currency: string | CurrencyID, amount: string | number | Big, threshold: string | number | Big): Operation<CreateAccountFact>;

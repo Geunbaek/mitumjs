@@ -108,6 +108,15 @@ export class Account extends KeyG {
             ])),
         };
     }
+    createBatchWallet(sender, n, currency, amount) {
+        const keyArray = this.keys(n);
+        const ksArray = keyArray.map((key) => new Keys([new PubKey(key.publickey, 100)], 100));
+        const items = ksArray.map((ks) => new CreateAccountItem(ks, [new Amount(currency, amount)], "mitum"));
+        return {
+            wallet: keyArray,
+            operation: new Operation(this.networkID, new CreateAccountFact(TimeStamp.new().UTC(), sender, items)),
+        };
+    }
     createAccount(sender, key, currency, amount) {
         return new Operation(this.networkID, new CreateAccountFact(TimeStamp.new().UTC(), sender, [
             new CreateAccountItem(new Keys([new PubKey(key, 100)], 100), [new Amount(currency, amount)], "mitum")
@@ -125,7 +134,7 @@ export class Account extends KeyG {
     }
     createEtherMultiSig(sender, keys, currency, amount, threshold) {
         return new Operation(this.networkID, new CreateAccountFact(TimeStamp.new().UTC(), sender, [
-            new CreateAccountItem(new Keys(keys.map(k => k instanceof PubKey ? k : new PubKey(k.key, k.weight)), threshold), [new Amount(currency, amount)], "ether")
+            new CreateAccountItem(new EtherKeys(keys.map(k => k instanceof PubKey ? k : new PubKey(k.key, k.weight)), threshold), [new Amount(currency, amount)], "ether")
         ]));
     }
     update(target, newKey, currency) {

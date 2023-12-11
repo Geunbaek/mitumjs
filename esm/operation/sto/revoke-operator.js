@@ -25,6 +25,7 @@ export class RevokeOperatorItem extends STOItem {
         return {
             ...super.toHintedObject(),
             operator: this.operator.toString(),
+            partition: this.partition.toString(),
         };
     }
     toString() {

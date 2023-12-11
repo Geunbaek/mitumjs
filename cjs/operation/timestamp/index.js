@@ -23,6 +23,7 @@ class TimeStamp extends base_1.ContractGenerator {
         return new base_1.Operation(this.networkID, new create_service_1.CreateServiceFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, currency));
     }
     append(contractAddr, sender, projectID, requestTimeStamp, data, currency) {
+        new types_1.URIString(projectID, 'projectID');
         const fact = new append_1.AppendFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, projectID, requestTimeStamp, data, currency);
         return new base_1.Operation(this.networkID, fact);
     }

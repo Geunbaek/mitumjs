@@ -25,11 +25,18 @@ declare const contract: {
         getService: (api: string | import("../types").IP, contract: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
         getProposal: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string) => Promise<AxiosResponse<any, any>>;
         getDelegator: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string, delegator: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
-        getVoter: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string, voter: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+        getVoter: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string) => Promise<AxiosResponse<any, any>>;
         getVotingResult: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string) => Promise<AxiosResponse<any, any>>;
     };
     kyc: {};
-    sto: {};
+    sto: {
+        getService: (api: string | import("../types").IP, contract: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+        getPartitions: (api: string | import("../types").IP, contract: string | import("../key").Address, holder: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+        getBalanceByHolder: (api: string | import("../types").IP, contract: string | import("../key").Address, holder: string | import("../key").Address, partition: string) => Promise<AxiosResponse<any, any>>;
+        getOperatorsByHolder: (api: string | import("../types").IP, contract: string | import("../key").Address, holder: string | import("../key").Address, partition: string) => Promise<AxiosResponse<any, any>>;
+        getPartitionBalance: (api: string | import("../types").IP, contract: string | import("../key").Address, partition: string) => Promise<AxiosResponse<any, any>>;
+        getAuthorized: (api: string | import("../types").IP, contract: string | import("../key").Address, operator: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+    };
     timestamp: {
         getService: (api: string | import("../types").IP, contract: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
         getTimeStamp: (api: string | import("../types").IP, contract: string | import("../key").Address, projectID: string, tid: string | number | import("../types").Big) => Promise<AxiosResponse<any, any>>;
@@ -89,11 +96,18 @@ declare const _default: {
             getService: (api: string | import("../types").IP, contract: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
             getProposal: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string) => Promise<AxiosResponse<any, any>>;
             getDelegator: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string, delegator: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
-            getVoter: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string, voter: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+            getVoter: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string) => Promise<AxiosResponse<any, any>>;
             getVotingResult: (api: string | import("../types").IP, contract: string | import("../key").Address, proposalID: string) => Promise<AxiosResponse<any, any>>;
         };
         kyc: {};
-        sto: {};
+        sto: {
+            getService: (api: string | import("../types").IP, contract: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+            getPartitions: (api: string | import("../types").IP, contract: string | import("../key").Address, holder: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+            getBalanceByHolder: (api: string | import("../types").IP, contract: string | import("../key").Address, holder: string | import("../key").Address, partition: string) => Promise<AxiosResponse<any, any>>;
+            getOperatorsByHolder: (api: string | import("../types").IP, contract: string | import("../key").Address, holder: string | import("../key").Address, partition: string) => Promise<AxiosResponse<any, any>>;
+            getPartitionBalance: (api: string | import("../types").IP, contract: string | import("../key").Address, partition: string) => Promise<AxiosResponse<any, any>>;
+            getAuthorized: (api: string | import("../types").IP, contract: string | import("../key").Address, operator: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
+        };
         timestamp: {
             getService: (api: string | import("../types").IP, contract: string | import("../key").Address) => Promise<AxiosResponse<any, any>>;
             getTimeStamp: (api: string | import("../types").IP, contract: string | import("../key").Address, projectID: string, tid: string | number | import("../types").Big) => Promise<AxiosResponse<any, any>>;

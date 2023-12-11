@@ -11,8 +11,8 @@ async function getProposal(api, contract, proposalID) {
 async function getDelegator(api, contract, proposalID, delegator) {
     return await axios.get(`${url(api, contract)}/proposal/${proposalID}/delegator/${Address.from(delegator).toString()}`);
 }
-async function getVoter(api, contract, proposalID, voter) {
-    return await axios.get(`${url(api, contract)}/pproposal/${proposalID}/voter/${Address.from(voter).toString()}`);
+async function getVoter(api, contract, proposalID) {
+    return await axios.get(`${url(api, contract)}/proposal/${proposalID}/voter`);
 }
 async function getVotingResult(api, contract, proposalID) {
     return await axios.get(`${url(api, contract)}/proposal/${proposalID}/votingpower`);

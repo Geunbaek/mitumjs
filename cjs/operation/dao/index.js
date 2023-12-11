@@ -64,10 +64,11 @@ class DAO extends base_1.ContractGenerator {
         return new proposal_1.BizProposal(proposer, startTime, url, hash, options);
     }
     propose(contractAddr, sender, proposalID, proposal, currency) {
+        new types_1.URIString(proposalID, 'proposalID');
         return new base_1.Operation(this.networkID, new propose_1.ProposeFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, proposalID, proposal, currency));
     }
-    register(contractAddr, sender, proposalID, delegator, currency) {
-        return new base_1.Operation(this.networkID, new register_1.RegisterFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, proposalID, delegator, currency));
+    register(contractAddr, sender, proposalID, currency, delegator) {
+        return new base_1.Operation(this.networkID, new register_1.RegisterFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, proposalID, delegator ? delegator : sender, currency));
     }
     cancel(contractAddr, sender, proposalID, currency) {
         return new base_1.Operation(this.networkID, new cancel_proposal_1.CancelProposalFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, proposalID, currency));
@@ -99,9 +100,9 @@ class DAO extends base_1.ContractGenerator {
             return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getDelegator(this.api, contractAddr, proposalID, delegator));
         });
     }
-    getVoterInfo(contractAddr, proposalID, voter) {
+    getVoterInfo(contractAddr, proposalID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getVoter(this.api, contractAddr, proposalID, voter));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getVoter(this.api, contractAddr, proposalID));
         });
     }
     getVotingResult(contractAddr, proposalID) {

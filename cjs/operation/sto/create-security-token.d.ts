@@ -8,8 +8,7 @@ import { Big, HintedObject } from "../../types";
 export declare class CreateSecurityTokenItem extends STOItem {
     readonly granularity: Big;
     readonly defaultPartition: Partition;
-    readonly controllers: Address[];
-    constructor(contract: string | Address, granularity: string | number | Big, defaultPartition: string | Partition, controllers: (string | Address)[], currency: string | CurrencyID);
+    constructor(contract: string | Address, granularity: string | number | Big, defaultPartition: string | Partition, currency: string | CurrencyID);
     toBuffer(): Buffer;
     toHintedObject(): HintedObject;
 }

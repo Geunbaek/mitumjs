@@ -4,7 +4,7 @@ import { AssignItem, AssignFact } from "./assign";
 import { RevokeItem, RevokeFact } from "./revoke";
 import { ContractGenerator, Operation } from "../base";
 import { contract, getAPIData } from "../../api";
-import { TimeStamp } from "../../types";
+import { TimeStamp, URIString } from "../../types";
 import { Assert, ECODE, MitumError } from "../../error";
 export class Credential extends ContractGenerator {
     constructor(networkID, api) {
@@ -16,14 +16,18 @@ export class Credential extends ContractGenerator {
     addTemplate(contractAddr, sender, data, currency) {
         const keysToCheck = ['templateID', 'templateName', 'serviceDate', 'expirationDate', 'templateShare', 'multiAudit', 'displayName', 'subjectKey', 'description', 'creator'];
         keysToCheck.forEach((key) => {
-            Assert.check(data[key] !== undefined, MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the templateData structure`));
+            const s = data[key];
+            Assert.check(s !== undefined, MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the templateData structure`));
+            s === 'templateID' ? new URIString(s, 'templateID') : null;
         });
         return new Operation(this.networkID, new AddTemplateFact(TimeStamp.new().UTC(), sender, contractAddr, data.templateID, data.templateName, data.serviceDate, data.expirationDate, data.templateShare, data.multiAudit, data.displayName, data.subjectKey, data.description, data.creator, currency));
     }
     issue(contractAddr, sender, data, currency) {
         const keysToCheck = ['holder', 'templateID', 'id', 'value', 'validFrom', 'validUntil', 'did'];
         keysToCheck.forEach((key) => {
-            Assert.check(data[key] !== undefined, MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the issueData structure`));
+            const s = data[key];
+            Assert.check(s !== undefined, MitumError.detail(ECODE.INVALID_DATA_STRUCTURE, `${key} is undefined, check the templateData structure`));
+            s === 'id' ? new URIString(s, 'id') : null;
         });
         return new Operation(this.networkID, new AssignFact(TimeStamp.new().UTC(), sender, [
             new AssignItem(contractAddr, data.holder, data.templateID, data.id, data.value, data.validFrom, data.validUntil, data.did, currency)

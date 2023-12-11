@@ -20,6 +20,7 @@ class IssueSecurityTokenItem extends item_1.STOItem {
     toBuffer() {
         return Buffer.concat([
             super.toBuffer(),
+            this.receiver.toBuffer(),
             this.amount.toBuffer(),
             this.partition.toBuffer(),
             this.currency.toBuffer(),

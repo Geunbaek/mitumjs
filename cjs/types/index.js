@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IP = exports.ShortDate = exports.LongString = exports.FullTimeStamp = exports.TimeStamp = exports.Bool = exports.Uint8 = exports.Float = exports.Big = exports.Generator = void 0;
+exports.URIString = exports.IP = exports.ShortDate = exports.LongString = exports.FullTimeStamp = exports.TimeStamp = exports.Bool = exports.Uint8 = exports.Float = exports.Big = exports.Generator = void 0;
 const generator_1 = require("./generator");
 Object.defineProperty(exports, "Generator", { enumerable: true, get: function () { return generator_1.Generator; } });
 const math_1 = require("./math");
@@ -15,4 +15,5 @@ const string_1 = require("./string");
 Object.defineProperty(exports, "ShortDate", { enumerable: true, get: function () { return string_1.ShortDate; } });
 Object.defineProperty(exports, "LongString", { enumerable: true, get: function () { return string_1.LongString; } });
 Object.defineProperty(exports, "IP", { enumerable: true, get: function () { return string_1.IP; } });
+Object.defineProperty(exports, "URIString", { enumerable: true, get: function () { return string_1.URIString; } });
 //# sourceMappingURL=index.js.map

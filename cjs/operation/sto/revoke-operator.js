@@ -23,7 +23,7 @@ class RevokeOperatorItem extends item_1.STOItem {
         ]);
     }
     toHintedObject() {
-        return Object.assign(Object.assign({}, super.toHintedObject()), { operator: this.operator.toString() });
+        return Object.assign(Object.assign({}, super.toHintedObject()), { operator: this.operator.toString(), partition: this.partition.toString() });
     }
     toString() {
         return this.operator.toString();
