@@ -14,7 +14,7 @@ import { ContractGenerator, Operation } from "../base";
 import { Address } from "../../key";
 import { Amount } from "../../common";
 import { contract, getAPIData } from "../../api";
-import { TimeStamp } from "../../types";
+import { TimeStamp, URIString } from "../../types";
 import { UpdatePolicyFact } from "./update-policy";
 import { Assert, ECODE, MitumError } from "../../error";
 export class DAO extends ContractGenerator {
@@ -52,10 +52,11 @@ export class DAO extends ContractGenerator {
         return new BizProposal(proposer, startTime, url, hash, options);
     }
     propose(contractAddr, sender, proposalID, proposal, currency) {
+        new URIString(proposalID, 'proposalID');
         return new Operation(this.networkID, new ProposeFact(TimeStamp.new().UTC(), sender, contractAddr, proposalID, proposal, currency));
     }
-    register(contractAddr, sender, proposalID, delegator, currency) {
-        return new Operation(this.networkID, new RegisterFact(TimeStamp.new().UTC(), sender, contractAddr, proposalID, delegator, currency));
+    register(contractAddr, sender, proposalID, currency, delegator) {
+        return new Operation(this.networkID, new RegisterFact(TimeStamp.new().UTC(), sender, contractAddr, proposalID, delegator ? delegator : sender, currency));
     }
     cancel(contractAddr, sender, proposalID, currency) {
         return new Operation(this.networkID, new CancelProposalFact(TimeStamp.new().UTC(), sender, contractAddr, proposalID, currency));
@@ -81,8 +82,8 @@ export class DAO extends ContractGenerator {
     async getDelegatorInfo(contractAddr, proposalID, delegator) {
         return await getAPIData(() => contract.dao.getDelegator(this.api, contractAddr, proposalID, delegator));
     }
-    async getVoterInfo(contractAddr, proposalID, voter) {
-        return await getAPIData(() => contract.dao.getVoter(this.api, contractAddr, proposalID, voter));
+    async getVoterInfo(contractAddr, proposalID) {
+        return await getAPIData(() => contract.dao.getVoter(this.api, contractAddr, proposalID));
     }
     async getVotingResult(contractAddr, proposalID) {
         return await getAPIData(() => contract.dao.getVotingResult(this.api, contractAddr, proposalID));

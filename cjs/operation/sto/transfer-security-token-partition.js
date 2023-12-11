@@ -23,9 +23,10 @@ class TransferSecurityTokenPartitionItem extends item_1.STOItem {
     toBuffer() {
         return Buffer.concat([
             super.toBuffer(),
+            this.tokenHolder.toBuffer(),
             this.receiver.toBuffer(),
-            this.amount.toBuffer(),
             this.partition.toBuffer(),
+            this.amount.toBuffer(),
             this.currency.toBuffer(),
         ]);
     }

@@ -34,4 +34,9 @@ export class IP extends LongString {
         return s instanceof IP ? s : new IP(s);
     }
 }
+export class URIString {
+    constructor(s, name) {
+        Assert.check(/^[A-Za-z0-9$\-_.!*'()]+$/.test(s), MitumError.detail(ECODE.INVALID_CHARACTER, `${name} must not contain: space / : ? # [ ] @`));
+    }
+}
 //# sourceMappingURL=string.js.map

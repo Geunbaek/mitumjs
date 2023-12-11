@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IP = exports.ShortDate = exports.LongString = void 0;
+exports.URIString = exports.IP = exports.ShortDate = exports.LongString = void 0;
 const error_1 = require("../error");
 class LongString {
     constructor(s) {
@@ -39,4 +39,10 @@ class IP extends LongString {
     }
 }
 exports.IP = IP;
+class URIString {
+    constructor(s, name) {
+        error_1.Assert.check(/^[A-Za-z0-9$\-_.!*'()]+$/.test(s), error_1.MitumError.detail(error_1.ECODE.INVALID_CHARACTER, `${name} must not contain: space / : ? # [ ] @`));
+    }
+}
+exports.URIString = URIString;
 //# sourceMappingURL=string.js.map

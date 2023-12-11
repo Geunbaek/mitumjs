@@ -2,7 +2,7 @@ import { CreateServiceFact } from "./create-service";
 import { AppendFact } from "./append";
 import { ContractGenerator, Operation } from "../base";
 import { contract, getAPIData } from "../../api";
-import { TimeStamp as TS } from "../../types";
+import { TimeStamp as TS, URIString } from "../../types";
 export class TimeStamp extends ContractGenerator {
     constructor(networkID, api) {
         super(networkID, api);
@@ -11,6 +11,7 @@ export class TimeStamp extends ContractGenerator {
         return new Operation(this.networkID, new CreateServiceFact(TS.new().UTC(), sender, contractAddr, currency));
     }
     append(contractAddr, sender, projectID, requestTimeStamp, data, currency) {
+        new URIString(projectID, 'projectID');
         const fact = new AppendFact(TS.new().UTC(), sender, contractAddr, projectID, requestTimeStamp, data, currency);
         return new Operation(this.networkID, fact);
     }

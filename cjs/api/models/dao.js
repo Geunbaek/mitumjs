@@ -31,9 +31,9 @@ function getDelegator(api, contract, proposalID, delegator) {
         return yield axios_1.default.get(`${url(api, contract)}/proposal/${proposalID}/delegator/${key_1.Address.from(delegator).toString()}`);
     });
 }
-function getVoter(api, contract, proposalID, voter) {
+function getVoter(api, contract, proposalID) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/pproposal/${proposalID}/voter/${key_1.Address.from(voter).toString()}`);
+        return yield axios_1.default.get(`${url(api, contract)}/proposal/${proposalID}/voter`);
     });
 }
 function getVotingResult(api, contract, proposalID) {

@@ -44,9 +44,9 @@ exports.Config = {
         ZERO: getRangeConfig(8, 15),
         NODE: getRangeConfig(4, Number.MAX_SAFE_INTEGER),
     },
-    KEYS_IN_ACCOUNT: getRangeConfig(1, 10),
+    KEYS_IN_ACCOUNT: getRangeConfig(1, 100),
     AMOUNTS_IN_ITEM: getRangeConfig(1, 10),
-    ITEMS_IN_FACT: getRangeConfig(1, 10),
+    ITEMS_IN_FACT: getRangeConfig(1, 100),
     OPERATIONS_IN_SEAL: getRangeConfig(1, 10),
     KEY: {
         MITUM: {
@@ -79,11 +79,11 @@ exports.Config = {
     },
     STO: {
         PARTITION: getRangeConfig(3, 10),
-        ADDRESS_IN_CONTROLLERS: getRangeConfig(0, 10),
     },
     DAO: {
         ADDRESS_IN_WHITELIST: getRangeConfig(0, 10),
         QUORUM: getRangeConfig(0, 100),
+        VOTE: getRangeConfig(0, 255),
     }
 };
 //# sourceMappingURL=config.js.map

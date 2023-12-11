@@ -39,7 +39,7 @@ export declare class DAO extends ContractGenerator {
     writeCryptoProposal(proposer: string, startTime: number, calldata: TransferCalldata | GovernanceCalldata): CryptoProposal;
     writeBizProposal(proposer: string | Address, startTime: string | number | Big, url: string | LongString, hash: string | LongString, options: string | number | Big): BizProposal;
     propose(contractAddr: string | Address, sender: string | Address, proposalID: string, proposal: CryptoProposal | BizProposal, currency: string | CurrencyID): Operation<ProposeFact>;
-    register(contractAddr: string | Address, sender: string | Address, proposalID: string, delegator: string | Address, currency: string | CurrencyID): Operation<RegisterFact>;
+    register(contractAddr: string | Address, sender: string | Address, proposalID: string, currency: string | CurrencyID, delegator?: string | Address): Operation<RegisterFact>;
     cancel(contractAddr: string | Address, sender: string | Address, proposalID: string, currency: string | CurrencyID): Operation<CancelProposalFact>;
     snapBeforeVoting(contractAddr: string | Address, sender: string | Address, proposalID: string, currency: string | CurrencyID): Operation<PreSnapFact>;
     castVote(contractAddr: string | Address, sender: string | Address, proposalID: string, voteOption: number, currency: string | CurrencyID): Operation<VoteFact>;
@@ -48,7 +48,7 @@ export declare class DAO extends ContractGenerator {
     getServiceInfo(contractAddr: string | Address): Promise<any>;
     getProposalInfo(contractAddr: string | Address, proposalID: string): Promise<any>;
     getDelegatorInfo(contractAddr: string | Address, proposalID: string, delegator: string | Address): Promise<any>;
-    getVoterInfo(contractAddr: string | Address, proposalID: string, voter: string | Address): Promise<any>;
+    getVoterInfo(contractAddr: string | Address, proposalID: string): Promise<any>;
     getVotingResult(contractAddr: string | Address, proposalID: string): Promise<any>;
 }
 export {};

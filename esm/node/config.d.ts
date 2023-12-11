@@ -60,10 +60,10 @@ export declare const Config: {
     };
     STO: {
         PARTITION: RangeConfig;
-        ADDRESS_IN_CONTROLLERS: RangeConfig;
     };
     DAO: {
         ADDRESS_IN_WHITELIST: RangeConfig;
         QUORUM: RangeConfig;
+        VOTE: RangeConfig;
     };
 };

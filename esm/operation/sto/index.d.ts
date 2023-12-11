@@ -13,7 +13,6 @@ import { Big, IP } from "../../types";
 type createServiceData = {
     granularity: string | number | Big;
     defaultPartition: string | Partition;
-    controllers: (string | Address)[];
 };
 export declare class STO extends ContractGenerator {
     constructor(networkID: string, api?: string | IP);
@@ -24,5 +23,11 @@ export declare class STO extends ContractGenerator {
     revokeOperator(contractAddr: string | Address, sender: string | Address, operator: string | Address, partition: string | Partition, currency: string | CurrencyID): Operation<RevokeOperatorFact>;
     setDocument(contractAddr: string | Address, sender: string | Address, title: string, uri: string, documentHash: string, currency: string | CurrencyID): Operation<SetDocumentFact>;
     transferByPartition(contractAddr: string | Address, sender: string | Address, holder: string | Address, receiver: string | Address, partition: string | Partition, amount: string | number | Big, currency: string | CurrencyID): Operation<TransferSecurityTokenPartitionFact>;
+    getServiceInfo(contractAddr: string | Address): Promise<any>;
+    getPartitionsInfo(contractAddr: string | Address, holder: string | Address): Promise<any>;
+    getBalanceByHolder(contractAddr: string | Address, holder: string | Address, partition: string): Promise<any>;
+    getOperatorsByHolder(contractAddr: string | Address, holder: string | Address, partition: string): Promise<any>;
+    getPartitionBalanceInfo(contractAddr: string | Address, partition: string): Promise<any>;
+    getAuthorizedInfo(contractAddr: string | Address, operator: string | Address): Promise<any>;
 }
 export {};
