@@ -8,8 +8,8 @@ import { ContractGenerator, Operation } from "../base";
 import { contract, getAPIData } from "../../api";
 import { TimeStamp } from "../../types";
 export class Token extends ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     registerToken(contractAddr, sender, currency, name, symbol, initialSupply) {
         return new Operation(this.networkID, new RegisterTokenFact(TimeStamp.new().UTC(), sender, contractAddr, currency, symbol, name, initialSupply ?? 0));
@@ -30,11 +30,11 @@ export class Token extends ContractGenerator {
         return new Operation(this.networkID, new ApproveFact(TimeStamp.new().UTC(), sender, contractAddr, currency, approved, amount));
     }
     async getTokenInfo(contractAddr) {
-        const data = await getAPIData(() => contract.token.getToken(this.api, contractAddr));
+        const data = await getAPIData(() => contract.token.getToken(this.api, contractAddr, this.delegateIP));
         return data ? data._embedded : null;
     }
     async getAllowance(contractAddr, owner, spender) {
-        const data = await getAPIData(() => contract.token.getToken(this.api, contractAddr));
+        const data = await getAPIData(() => contract.token.getToken(this.api, contractAddr, this.delegateIP));
         if (data) {
             const approve_list = data._embedded.policy.approve_list;
             let amount;
@@ -57,7 +57,7 @@ export class Token extends ContractGenerator {
         }
     }
     async getTokenBalance(contractAddr, owner) {
-        const data = await getAPIData(() => contract.token.getTokenBalance(this.api, contractAddr, owner));
+        const data = await getAPIData(() => contract.token.getTokenBalance(this.api, contractAddr, owner, this.delegateIP));
         return data ? data._embedded : null;
     }
 }

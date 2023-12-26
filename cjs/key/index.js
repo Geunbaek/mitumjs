@@ -18,8 +18,8 @@ Object.defineProperty(exports, "NodeAddress", { enumerable: true, get: function 
 const types_1 = require("../types");
 const error_1 = require("../error");
 class KeyG extends types_1.Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     key(seed) {
         if (!seed) {

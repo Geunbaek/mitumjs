@@ -6,8 +6,8 @@ import { Generator } from "../types";
 import { Assert, ECODE, MitumError } from "../error";
 export { Address, ZeroAddress, NodeAddress, Key, Keys, PubKey, EtherKeys, BaseKeyPair, KeyPair, randomN, };
 export class KeyG extends Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     key(seed) {
         if (!seed) {

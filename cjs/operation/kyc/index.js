@@ -9,8 +9,8 @@ const update_customer_1 = require("./update-customer");
 const base_1 = require("../base");
 const types_1 = require("../../types");
 class KYC extends base_1.ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, currency) {
         return new base_1.Operation(this.networkID, new create_service_1.CreateServiceFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, currency));

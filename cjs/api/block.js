@@ -14,19 +14,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const types_1 = require("../types");
-function getBlocks(api) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getBlocks(api, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/block/manifests`);
+        const apiPath = `${types_1.IP.from(api).toString()}/block/manifests`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getBlockByHeight(api, height) {
+function getBlockByHeight(api, height, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/block/${types_1.Big.from(height).toString()}/manifest`);
+        const apiPath = `${types_1.IP.from(api).toString()}/block/${types_1.Big.from(height).toString()}/manifest`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getBlockByHash(api, hash) {
+function getBlockByHash(api, hash, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/block/${hash}/manifest`);
+        const apiPath = `${types_1.IP.from(api).toString()}/block/${hash}/manifest`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

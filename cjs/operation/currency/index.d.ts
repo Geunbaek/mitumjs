@@ -31,7 +31,7 @@ type keysType = ({
     weight: string | number | Big;
 }>;
 export declare class Currency extends Generator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     create(data: createData): Operation<RegisterCurrencyFact>;
     setPolicy(data: createData): Operation<UpdateCurrencyFact>;
     private buildPolicy;
@@ -42,7 +42,7 @@ export declare class Currency extends Generator {
     getCurrency(cid: string | CurrencyID): Promise<any>;
 }
 export declare class Account extends KeyG {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     createWallet(sender: string | Address, currency: string | CurrencyID, amount: string | number | Big, seed?: string, weight?: string | number | Big): {
         wallet: AccountType;
         operation: Operation<CreateAccountFact>;
@@ -72,7 +72,7 @@ export declare class Account extends KeyG {
     balance(address: string | Address): Promise<any>;
 }
 export declare class Contract extends Generator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     createWallet(sender: string | Address, currency: string | CurrencyID, amount: string | number | Big, seed?: string, weight?: string | number | Big): {
         wallet: AccountType;
         operation: Operation<CreateContractAccountFact>;

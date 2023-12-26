@@ -16,29 +16,35 @@ const axios_1 = __importDefault(require("axios"));
 const key_1 = require("../../key");
 const types_1 = require("../../types");
 const url = (api, contract) => `${types_1.IP.from(api).toString()}/did/${key_1.Address.from(contract).toString()}`;
-function getIssuer(api, contract) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getIssuer(api, contract, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/service`);
+        const apiPath = `${url(api, contract)}/service`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getCredential(api, contract, templateID, credentialID) {
+function getCredential(api, contract, templateID, credentialID, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/template/${templateID}/credential/${credentialID}`);
+        const apiPath = `${url(api, contract)}/template/${templateID}/credential/${credentialID}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getTemplate(api, contract, templateID) {
+function getTemplate(api, contract, templateID, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/template/${templateID}`);
+        const apiPath = `${url(api, contract)}/template/${templateID}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getCredentials(api, contract, templateID) {
+function getCredentials(api, contract, templateID, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/template/${templateID}/credentials`);
+        const apiPath = `${url(api, contract)}/template/${templateID}/credentials`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getCredentialByHolder(api, contract, holder) {
+function getCredentialByHolder(api, contract, holder, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}`);
+        const apiPath = `${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

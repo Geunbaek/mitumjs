@@ -2,9 +2,11 @@ import { IP } from "./string";
 export class Generator {
     _networkID;
     _api;
-    constructor(networkID, api) {
+    _delegateIP;
+    constructor(networkID, api, delegateIP) {
         this._networkID = networkID;
         this._api = api ? IP.from(api) : undefined;
+        this._delegateIP = delegateIP ? IP.from(delegateIP) : undefined;
     }
     /**
      * @deprecated use setNetworkID(networkID: string)
@@ -24,11 +26,17 @@ export class Generator {
     setAPI(api) {
         this._api = api ? IP.from(api) : undefined;
     }
+    setDelegate(delegateIP) {
+        this._delegateIP = delegateIP ? IP.from(delegateIP) : undefined;
+    }
     get networkID() {
         return this._networkID;
     }
     get api() {
         return this._api ? this._api.toString() : "";
+    }
+    get delegateIP() {
+        return this._delegateIP ? this._delegateIP.toString() : "";
     }
 }
 //# sourceMappingURL=generator.js.map

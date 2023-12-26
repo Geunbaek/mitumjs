@@ -20,8 +20,8 @@ const base_1 = require("../base");
 const api_1 = require("../../api");
 const types_1 = require("../../types");
 class Token extends base_1.ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     registerToken(contractAddr, sender, currency, name, symbol, initialSupply) {
         return new base_1.Operation(this.networkID, new register_token_1.RegisterTokenFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, currency, symbol, name, initialSupply !== null && initialSupply !== void 0 ? initialSupply : 0));
@@ -43,13 +43,13 @@ class Token extends base_1.ContractGenerator {
     }
     getTokenInfo(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.token.getToken(this.api, contractAddr));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.token.getToken(this.api, contractAddr, this.delegateIP));
             return data ? data._embedded : null;
         });
     }
     getAllowance(contractAddr, owner, spender) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.token.getToken(this.api, contractAddr));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.token.getToken(this.api, contractAddr, this.delegateIP));
             if (data) {
                 const approve_list = data._embedded.policy.approve_list;
                 let amount;
@@ -74,7 +74,7 @@ class Token extends base_1.ContractGenerator {
     }
     getTokenBalance(contractAddr, owner) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.token.getTokenBalance(this.api, contractAddr, owner));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.token.getTokenBalance(this.api, contractAddr, owner, this.delegateIP));
             return data ? data._embedded : null;
         });
     }

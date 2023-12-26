@@ -16,14 +16,17 @@ const axios_1 = __importDefault(require("axios"));
 const key_1 = require("../../key");
 const types_1 = require("../../types");
 const url = (api, contract) => `${types_1.IP.from(api).toString()}/timestamp/${key_1.Address.from(contract).toString()}`;
-function getService(api, contract) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getService(api, contract, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/service`);
+        const apiPath = `${url(api, contract)}/service`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getTimeStamp(api, contract, projectID, tid) {
+function getTimeStamp(api, contract, projectID, tid, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/project/${projectID}/id/${types_1.Big.from(tid).toString()}`);
+        const apiPath = `${url(api, contract)}/project/${projectID}/id/${types_1.Big.from(tid).toString()}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

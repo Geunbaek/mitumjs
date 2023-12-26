@@ -2,17 +2,22 @@ import axios from "axios";
 import { Address } from "../../key";
 import { IP } from "../../types";
 const url = (api, contract) => `${IP.from(api).toString()}/nft/${Address.from(contract).toString()}`;
-async function getNFT(api, contract, nftID) {
-    return await axios.get(`${url(api, contract)}/${nftID}`);
+const delegateUri = (delegateIP) => `${IP.from(delegateIP).toString()}?uri=`;
+async function getNFT(api, contract, nftID, delegateIP) {
+    const apiPath = `${url(api, contract)}/${nftID}`;
+    return !delegateIP ? await axios.get(apiPath) : await axios.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
 }
-async function getNFTs(api, contract) {
-    return await axios.get(`${url(api, contract)}/nfts`);
+async function getNFTs(api, contract, delegateIP) {
+    const apiPath = `${url(api, contract)}/nfts`;
+    return !delegateIP ? await axios.get(apiPath) : await axios.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
 }
-async function getCollection(api, contract) {
-    return await axios.get(`${url(api, contract)}/collection`);
+async function getCollection(api, contract, delegateIP) {
+    const apiPath = `${url(api, contract)}/collection`;
+    return !delegateIP ? await axios.get(apiPath) : await axios.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
 }
-async function getAccountOperators(api, contract, account) {
-    return await axios.get(`${url(api, contract)}/account/${Address.from(account).toString()}/operators`);
+async function getAccountOperators(api, contract, account, delegateIP) {
+    const apiPath = `${url(api, contract)}/account/${Address.from(account).toString()}/operators`;
+    return !delegateIP ? await axios.get(apiPath) : await axios.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
 }
 export default {
     getNFT,

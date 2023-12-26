@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Generator = void 0;
 const string_1 = require("./string");
 class Generator {
-    constructor(networkID, api) {
+    constructor(networkID, api, delegateIP) {
         this._networkID = networkID;
         this._api = api ? string_1.IP.from(api) : undefined;
+        this._delegateIP = delegateIP ? string_1.IP.from(delegateIP) : undefined;
     }
     /**
      * @deprecated use setNetworkID(networkID: string)
@@ -25,11 +26,17 @@ class Generator {
     setAPI(api) {
         this._api = api ? string_1.IP.from(api) : undefined;
     }
+    setDelegate(delegateIP) {
+        this._delegateIP = delegateIP ? string_1.IP.from(delegateIP) : undefined;
+    }
     get networkID() {
         return this._networkID;
     }
     get api() {
         return this._api ? this._api.toString() : "";
+    }
+    get delegateIP() {
+        return this._delegateIP ? this._delegateIP.toString() : "";
     }
 }
 exports.Generator = Generator;

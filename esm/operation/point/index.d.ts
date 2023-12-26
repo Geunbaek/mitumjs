@@ -9,7 +9,7 @@ import { Address } from "../../key";
 import { CurrencyID } from "../../common";
 import { Big, IP, LongString } from "../../types";
 export declare class Point extends ContractGenerator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     registerPoint(contractAddr: string | Address, sender: string | Address, currency: string | CurrencyID, name: string | LongString, symbol: string | CurrencyID, initialSupply?: string | number | Big): Operation<RegisterPointFact>;
     mint(contractAddr: string | Address, sender: string | Address, currency: string | CurrencyID, receiver: string | Address, amount: string | number | Big): Operation<MintFact>;
     burn(contractAddr: string | Address, sender: string | Address, currency: string | CurrencyID, target: string | Address, amount: string | number | Big): Operation<BurnFact>;

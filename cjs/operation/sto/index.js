@@ -22,8 +22,8 @@ const base_1 = require("../base");
 const types_1 = require("../../types");
 const error_1 = require("../../error");
 class STO extends base_1.ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     authorizeOperator(contractAddr, sender, operator, partition, currency) {
         return new base_1.Operation(this.networkID, new authorize_operator_1.AuthorizeOperatorFact(types_1.TimeStamp.new().UTC(), sender, [
@@ -64,32 +64,32 @@ class STO extends base_1.ContractGenerator {
     }
     getServiceInfo(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getService(this.api, contractAddr));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getService(this.api, contractAddr, this.delegateIP));
         });
     }
     getPartitionsInfo(contractAddr, holder) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getPartitions(this.api, contractAddr, holder));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getPartitions(this.api, contractAddr, holder, this.delegateIP));
         });
     }
     getBalanceByHolder(contractAddr, holder, partition) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getBalanceByHolder(this.api, contractAddr, holder, partition));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getBalanceByHolder(this.api, contractAddr, holder, partition, this.delegateIP));
         });
     }
     getOperatorsByHolder(contractAddr, holder, partition) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getOperatorsByHolder(this.api, contractAddr, holder, partition));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getOperatorsByHolder(this.api, contractAddr, holder, partition, this.delegateIP));
         });
     }
     getPartitionBalanceInfo(contractAddr, partition) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getPartitionBalance(this.api, contractAddr, partition));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getPartitionBalance(this.api, contractAddr, partition, this.delegateIP));
         });
     }
     getAuthorizedInfo(contractAddr, operator) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getAuthorized(this.api, contractAddr, operator));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.sto.getAuthorized(this.api, contractAddr, operator, this.delegateIP));
         });
     }
 }

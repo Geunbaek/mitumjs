@@ -16,24 +16,29 @@ const axios_1 = __importDefault(require("axios"));
 const key_1 = require("../../key");
 const types_1 = require("../../types");
 const url = (api, contract) => `${types_1.IP.from(api).toString()}/nft/${key_1.Address.from(contract).toString()}`;
-function getNFT(api, contract, nftID) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getNFT(api, contract, nftID, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/${nftID}`);
+        const apiPath = `${url(api, contract)}/${nftID}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getNFTs(api, contract) {
+function getNFTs(api, contract, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/nfts`);
+        const apiPath = `${url(api, contract)}/nfts`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getCollection(api, contract) {
+function getCollection(api, contract, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/collection`);
+        const apiPath = `${url(api, contract)}/collection`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getAccountOperators(api, contract, account) {
+function getAccountOperators(api, contract, account, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/account/${key_1.Address.from(account).toString()}/operators`);
+        const apiPath = `${url(api, contract)}/account/${key_1.Address.from(account).toString()}/operators`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

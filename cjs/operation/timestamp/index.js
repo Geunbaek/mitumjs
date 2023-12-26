@@ -16,8 +16,8 @@ const base_1 = require("../base");
 const api_1 = require("../../api");
 const types_1 = require("../../types");
 class TimeStamp extends base_1.ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, currency) {
         return new base_1.Operation(this.networkID, new create_service_1.CreateServiceFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, currency));
@@ -29,12 +29,12 @@ class TimeStamp extends base_1.ContractGenerator {
     }
     getServiceInfo(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.timestamp.getService(this.api, contractAddr));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.timestamp.getService(this.api, contractAddr, this.delegateIP));
         });
     }
     getTimestampInfo(contractAddr, projectID, tid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.timestamp.getTimeStamp(this.api, contractAddr, projectID, tid));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.timestamp.getTimeStamp(this.api, contractAddr, projectID, tid, this.delegateIP));
         });
     }
 }

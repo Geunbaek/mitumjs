@@ -19,8 +19,8 @@ const api_1 = require("../../api");
 const types_1 = require("../../types");
 const error_1 = require("../../error");
 class Credential extends base_1.ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, currency) {
         return new base_1.Operation(this.networkID, new create_service_1.CreateServiceFact(types_1.TimeStamp.new().UTC(), sender, contractAddr, currency));
@@ -52,27 +52,27 @@ class Credential extends base_1.ContractGenerator {
     }
     getServiceInfo(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getIssuer(this.api, contractAddr));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getIssuer(this.api, contractAddr, this.delegateIP));
         });
     }
     getCredentialInfo(contractAddr, templateID, credentialID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getCredential(this.api, contractAddr, templateID, credentialID));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getCredential(this.api, contractAddr, templateID, credentialID, this.delegateIP));
         });
     }
     getTemplate(contractAddr, templateID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getTemplate(this.api, contractAddr, templateID));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getTemplate(this.api, contractAddr, templateID, this.delegateIP));
         });
     }
     getAllCredentials(contractAddr, templateID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getCredentials(this.api, contractAddr, templateID));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getCredentials(this.api, contractAddr, templateID, this.delegateIP));
         });
     }
     claimCredential(contractAddr, holder) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getCredentialByHolder(this.api, contractAddr, holder));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.credential.getCredentialByHolder(this.api, contractAddr, holder, this.delegateIP));
         });
     }
 }

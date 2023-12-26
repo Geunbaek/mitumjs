@@ -15,34 +15,41 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const key_1 = require("../key");
 const types_1 = require("../types");
-function getOperations(api) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getOperations(api, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/block/operations`);
+        const apiPath = `${types_1.IP.from(api).toString()}/block/operations`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getOperation(api, hash) {
+function getOperation(api, hash, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/block/operation/${hash}`);
+        const apiPath = `${types_1.IP.from(api).toString()}/block/operation/${hash}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getBlockOperationsByHeight(api, height) {
+function getBlockOperationsByHeight(api, height, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/block/${types_1.Big.from(height).toString()}/operations`);
+        const apiPath = `${types_1.IP.from(api).toString()}/block/${types_1.Big.from(height).toString()}/operations`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getBlockOperationsByHash(api, hash) {
+function getBlockOperationsByHash(api, hash, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/block/${hash}/operations`);
+        const apiPath = `${types_1.IP.from(api).toString()}/block/${hash}/operations`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getAccountOperations(api, address) {
+function getAccountOperations(api, address, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/account/${key_1.Address.from(address).toString()}/operations`);
+        const apiPath = `${types_1.IP.from(api).toString()}/account/${key_1.Address.from(address).toString()}/operations`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function send(api, operation, config) {
+function send(api, operation, delegateIP, config) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.post(`${types_1.IP.from(api).toString()}/builder/send`, JSON.stringify(operation), config);
+        const apiPath = `${types_1.IP.from(api).toString()}/builder/send`;
+        return !delegateIP ? yield axios_1.default.post(apiPath, JSON.stringify(operation), config) : yield axios_1.default.post(delegateIP.toString(), operation, config);
     });
 }
 exports.default = {
@@ -51,6 +58,6 @@ exports.default = {
     getBlockOperationsByHeight,
     getBlockOperationsByHash,
     getAccountOperations,
-    send,
+    send
 };
 //# sourceMappingURL=operation.js.map

@@ -16,34 +16,41 @@ const axios_1 = __importDefault(require("axios"));
 const key_1 = require("../../key");
 const types_1 = require("../../types");
 const url = (api, contract) => `${types_1.IP.from(api).toString()}/sto/${key_1.Address.from(contract).toString()}`;
-function getService(api, contract) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getService(api, contract, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}`);
+        const apiPath = `${url(api, contract)}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getPartitions(api, contract, holder) {
+function getPartitions(api, contract, holder, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}/partitions`);
+        const apiPath = `${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}/partitions`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getBalanceByHolder(api, contract, holder, partition) {
+function getBalanceByHolder(api, contract, holder, partition, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}/partition/${partition}/balance`);
+        const apiPath = `${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}/partition/${partition}/balance`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getOperatorsByHolder(api, contract, holder, partition) {
+function getOperatorsByHolder(api, contract, holder, partition, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}/partition/${partition}/operators`);
+        const apiPath = `${url(api, contract)}/holder/${key_1.Address.from(holder).toString()}/partition/${partition}/operators`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getPartitionBalance(api, contract, partition) {
+function getPartitionBalance(api, contract, partition, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/partition/${partition}/balance`);
+        const apiPath = `${url(api, contract)}/partition/${partition}/balance`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getAuthorized(api, contract, operator) {
+function getAuthorized(api, contract, operator, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/operator/${key_1.Address.from(operator).toString()}/holders`);
+        const apiPath = `${url(api, contract)}/operator/${key_1.Address.from(operator).toString()}/holders`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

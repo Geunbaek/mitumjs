@@ -16,29 +16,35 @@ const axios_1 = __importDefault(require("axios"));
 const key_1 = require("../../key");
 const types_1 = require("../../types");
 const url = (api, contract) => `${types_1.IP.from(api).toString()}/dao/${key_1.Address.from(contract).toString()}`;
-function getService(api, contract) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getService(api, contract, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/service`);
+        const apiPath = `${url(api, contract)}/service`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getProposal(api, contract, proposalID) {
+function getProposal(api, contract, proposalID, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/proposal/${proposalID}`);
+        const apiPath = `${url(api, contract)}/proposal/${proposalID}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getDelegator(api, contract, proposalID, delegator) {
+function getDelegator(api, contract, proposalID, delegator, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/proposal/${proposalID}/delegator/${key_1.Address.from(delegator).toString()}`);
+        const apiPath = `${url(api, contract)}/proposal/${proposalID}/delegator/${key_1.Address.from(delegator).toString()}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getVoter(api, contract, proposalID) {
+function getVoter(api, contract, proposalID, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/proposal/${proposalID}/voter`);
+        const apiPath = `${url(api, contract)}/proposal/${proposalID}/voter`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getVotingResult(api, contract, proposalID) {
+function getVotingResult(api, contract, proposalID, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${url(api, contract)}/proposal/${proposalID}/votingpower`);
+        const apiPath = `${url(api, contract)}/proposal/${proposalID}/votingpower`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

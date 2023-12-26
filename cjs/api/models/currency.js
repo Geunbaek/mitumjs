@@ -15,14 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const types_1 = require("../../types");
 const common_1 = require("../../common");
-function getCurrencies(api) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getCurrencies(api, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/currency`);
+        const apiPath = `${types_1.IP.from(api).toString()}/currency`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getCurrency(api, currency) {
+function getCurrency(api, currency, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/currency/${common_1.CurrencyID.from(currency).toString()}`);
+        const apiPath = `${types_1.IP.from(api).toString()}/currency/${common_1.CurrencyID.from(currency).toString()}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

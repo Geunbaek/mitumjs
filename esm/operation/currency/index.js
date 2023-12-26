@@ -15,8 +15,8 @@ import { Generator, TimeStamp } from "../../types";
 import { KeyPair, Keys, PubKey, KeyG, EtherKeys } from "../../key";
 import { Assert, ECODE, MitumError } from "../../error";
 export class Currency extends Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     create(data) {
         const keysToCheck = ['currency', 'genesisAddress', 'totalSupply', 'minBalance', 'feeType', 'feeReceiver'];
@@ -66,19 +66,19 @@ export class Currency extends Generator {
         ]));
     }
     async getAllCurrencies() {
-        const datas = await getAPIData(() => api.currency.getCurrencies(this.api));
+        const datas = await getAPIData(() => api.currency.getCurrencies(this.api, this.delegateIP));
         return datas
             ? Object.keys(datas._links).filter(c => !(c === "self" || c === "currency:{currencyid}")).map(c => c)
             : null;
     }
     async getCurrency(cid) {
-        const data = await getAPIData(() => api.currency.getCurrency(this.api, cid));
+        const data = await getAPIData(() => api.currency.getCurrency(this.api, cid, this.delegateIP));
         return data ? data._embedded : null;
     }
 }
 export class Account extends KeyG {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createWallet(sender, currency, amount, seed, weight) {
         const kp = seed ? KeyPair.fromSeed(seed) : KeyPair.random();
@@ -158,28 +158,28 @@ export class Account extends KeyG {
     async touch(privatekey, wallet) {
         const op = wallet.operation;
         op.sign(privatekey);
-        return await getAPIData(() => api.operation.send(this.api, op.toHintedObject()));
+        return await getAPIData(() => api.operation.send(this.api, op.toHintedObject(), this.delegateIP));
     }
     async getAccountInfo(address) {
-        const data = await getAPIData(() => api.account.getAccount(this.api, address));
+        const data = await getAPIData(() => api.account.getAccount(this.api, address, this.delegateIP));
         return data ? data._embedded : null;
     }
     async getOperations(address) {
-        const data = await getAPIData(() => api.operation.getAccountOperations(this.api, address));
+        const data = await getAPIData(() => api.operation.getAccountOperations(this.api, address, this.delegateIP));
         return data ? data._embedded : null;
     }
     async getByPublickey(publickey) {
-        const data = await getAPIData(() => api.account.getAccountByPublicKey(this.api, publickey));
+        const data = await getAPIData(() => api.account.getAccountByPublicKey(this.api, publickey, this.delegateIP));
         return data ? data._embedded : null;
     }
     async balance(address) {
-        const data = await getAPIData(() => api.account.getAccount(this.api, address));
+        const data = await getAPIData(() => api.account.getAccount(this.api, address, this.delegateIP));
         return data ? data._embedded.balance : null;
     }
 }
 export class Contract extends Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createWallet(sender, currency, amount, seed, weight) {
         const kp = seed ? KeyPair.fromSeed(seed) : KeyPair.random();
@@ -235,10 +235,10 @@ export class Contract extends Generator {
     async touch(privatekey, wallet) {
         const op = wallet.operation;
         op.sign(privatekey);
-        return await getAPIData(() => api.operation.send(this.api, op.toHintedObject()));
+        return await getAPIData(() => api.operation.send(this.api, op.toHintedObject(), this.delegateIP));
     }
     async getContractInfo(address) {
-        const data = await getAPIData(() => api.account.getAccount(this.api, address));
+        const data = await getAPIData(() => api.account.getAccount(this.api, address, this.delegateIP));
         return data ? data._embedded : null;
     }
 }

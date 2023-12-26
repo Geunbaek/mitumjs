@@ -6,8 +6,8 @@ import { UpdateCustomerItem, UpdateCustomerFact } from "./update-customer";
 import { ContractGenerator, Operation } from "../base";
 import { TimeStamp } from "../../types";
 export class KYC extends ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, currency) {
         return new Operation(this.networkID, new CreateServiceFact(TimeStamp.new().UTC(), sender, contractAddr, currency));

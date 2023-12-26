@@ -18,49 +18,49 @@ const api_1 = require("../api");
 const types_1 = require("../types");
 const error_1 = require("../error");
 class Node extends types_1.Generator {
-    constructor(api) {
-        super("", api);
+    constructor(api, delegateIP) {
+        super("", api, delegateIP);
     }
     getNodeInfo() {
         return __awaiter(this, void 0, void 0, function* () {
             error_1.Assert.check(this.api !== undefined || this.api !== null, error_1.MitumError.detail(error_1.ECODE.NO_API, "no api"));
-            return yield api_1.node.getNode(this.api);
+            return yield api_1.node.getNode(this.api, this.delegateIP);
         });
     }
 }
 exports.Node = Node;
 class Block extends types_1.Generator {
-    constructor(api) {
-        super("", api);
+    constructor(api, delegate) {
+        super("", api, delegate);
     }
     getAllBlocks() {
         return __awaiter(this, void 0, void 0, function* () {
             error_1.Assert.check(this.api !== undefined || this.api !== null, error_1.MitumError.detail(error_1.ECODE.NO_API, "no api"));
-            return yield api_1.block.getBlocks(this.api);
+            return yield api_1.block.getBlocks(this.api, this.delegateIP);
         });
     }
     getBlockByHash(hash) {
         return __awaiter(this, void 0, void 0, function* () {
             error_1.Assert.check(this.api !== undefined || this.api !== null, error_1.MitumError.detail(error_1.ECODE.NO_API, "no api"));
-            return yield api_1.block.getBlockByHash(this.api, hash);
+            return yield api_1.block.getBlockByHash(this.api, hash, this.delegateIP);
         });
     }
     getBlockByHeight(height) {
         return __awaiter(this, void 0, void 0, function* () {
             error_1.Assert.check(this.api !== undefined || this.api !== null, error_1.MitumError.detail(error_1.ECODE.NO_API, "no api"));
-            return yield api_1.block.getBlockByHeight(this.api, height);
+            return yield api_1.block.getBlockByHeight(this.api, height, this.delegateIP);
         });
     }
     getOperationsByHash(hash) {
         return __awaiter(this, void 0, void 0, function* () {
             error_1.Assert.check(this.api !== undefined || this.api !== null, error_1.MitumError.detail(error_1.ECODE.NO_API, "no api"));
-            return yield api_1.operation.getBlockOperationsByHash(this.api, hash);
+            return yield api_1.operation.getBlockOperationsByHash(this.api, hash, this.delegateIP);
         });
     }
     getOperationsByHeight(height) {
         return __awaiter(this, void 0, void 0, function* () {
             error_1.Assert.check(this.api !== undefined || this.api !== null, error_1.MitumError.detail(error_1.ECODE.NO_API, "no api"));
-            return yield api_1.operation.getBlockOperationsByHeight(this.api, height);
+            return yield api_1.operation.getBlockOperationsByHeight(this.api, height, this.delegateIP);
         });
     }
 }

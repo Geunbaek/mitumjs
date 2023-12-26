@@ -23,8 +23,8 @@ const api_1 = require("../../api");
 const types_1 = require("../../types");
 const error_1 = require("../../error");
 class NFT extends base_1.ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createCollection(contractAddr, sender, data, currency) {
         const keysToCheck = ['name', 'uri', 'royalty', 'whitelist'];
@@ -77,7 +77,7 @@ class NFT extends base_1.ContractGenerator {
     }
     getCollectionInfo(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getCollection(this.api, contractAddr));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getCollection(this.api, contractAddr, this.delegateIP));
             return data ? data._embedded : null;
         });
     }
@@ -92,41 +92,41 @@ class NFT extends base_1.ContractGenerator {
     }
     ownerOf(contractAddr, nftID) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
             return data ? data._embedded.owner : null;
         });
     }
     getApproved(contractAddr, nftID) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
             return data ? data._embedded.approved : null;
         });
     }
     totalSupply(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFTs(this.api, contractAddr));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFTs(this.api, contractAddr, this.delegateIP));
             return data ? data._embedded.length : null;
         });
     }
     tokenURI(contractAddr, nftID) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+            const data = yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
             return data ? data._embedded.uri : null;
         });
     }
     isApprovedForAll(contractAddr, owner) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.nft.getAccountOperators(this.api, contractAddr, owner));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.nft.getAccountOperators(this.api, contractAddr, owner, this.delegateIP));
         });
     }
     getNFTInfo(contractAddr, nftID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
         });
     }
     getNFTs(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFTs(this.api, contractAddr));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.nft.getNFTs(this.api, contractAddr, this.delegateIP));
         });
     }
 }

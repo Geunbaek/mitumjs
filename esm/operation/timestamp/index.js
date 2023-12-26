@@ -4,8 +4,8 @@ import { ContractGenerator, Operation } from "../base";
 import { contract, getAPIData } from "../../api";
 import { TimeStamp as TS, URIString } from "../../types";
 export class TimeStamp extends ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, currency) {
         return new Operation(this.networkID, new CreateServiceFact(TS.new().UTC(), sender, contractAddr, currency));
@@ -16,10 +16,10 @@ export class TimeStamp extends ContractGenerator {
         return new Operation(this.networkID, fact);
     }
     async getServiceInfo(contractAddr) {
-        return await getAPIData(() => contract.timestamp.getService(this.api, contractAddr));
+        return await getAPIData(() => contract.timestamp.getService(this.api, contractAddr, this.delegateIP));
     }
     async getTimestampInfo(contractAddr, projectID, tid) {
-        return await getAPIData(() => contract.timestamp.getTimeStamp(this.api, contractAddr, projectID, tid));
+        return await getAPIData(() => contract.timestamp.getTimeStamp(this.api, contractAddr, projectID, tid, this.delegateIP));
     }
 }
 //# sourceMappingURL=index.js.map

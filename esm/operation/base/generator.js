@@ -1,8 +1,8 @@
 // import { Address } from "../../key"
 import { Generator } from "../../types";
 export class ContractGenerator extends Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
 }
 //# sourceMappingURL=generator.js.map

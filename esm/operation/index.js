@@ -13,14 +13,14 @@ import { KeyPair } from "../key";
 import { Generator } from "../types";
 import * as Base from "./base";
 export class Operation extends Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     async getAllOperations() {
-        return await api.getOperations(this.api);
+        return await api.getOperations(this.api, this.delegateIP);
     }
     async getOperation(hash) {
-        return await api.getOperation(this.api, hash);
+        return await api.getOperation(this.api, hash, this.delegateIP);
     }
     sign(privatekey, operation, option) {
         const op = operation;
@@ -28,7 +28,7 @@ export class Operation extends Generator {
         return op;
     }
     async send(operation, headers) {
-        return await api.send(this.api, operation, headers);
+        return await api.send(this.api, operation, this.delegateIP, headers);
     }
 }
 export { Currency, Account, Contract, NFT, Credential, DAO, STO, KYC, TimeStamp, Token, Point, Signer, Base, };

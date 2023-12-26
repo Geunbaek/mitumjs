@@ -4,8 +4,8 @@ exports.ContractGenerator = void 0;
 // import { Address } from "../../key"
 const types_1 = require("../../types");
 class ContractGenerator extends types_1.Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
 }
 exports.ContractGenerator = ContractGenerator;

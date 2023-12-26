@@ -28,7 +28,7 @@ type issueData = {
     did: string;
 };
 export declare class Credential extends ContractGenerator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     createService(contractAddr: string | Address, sender: string | Address, currency: string | CurrencyID): Operation<CreateServiceFact>;
     addTemplate(contractAddr: string | Address, sender: string | Address, data: templateData, currency: string | CurrencyID): Operation<AddTemplateFact>;
     issue(contractAddr: string | Address, sender: string | Address, data: issueData, currency: string | CurrencyID): Operation<AssignFact>;

@@ -11,8 +11,8 @@ import { contract, getAPIData } from "../../api";
 import { Big, TimeStamp } from "../../types";
 import { Assert, ECODE, MitumError } from "../../error";
 export class NFT extends ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createCollection(contractAddr, sender, data, currency) {
         const keysToCheck = ['name', 'uri', 'royalty', 'whitelist'];
@@ -64,7 +64,7 @@ export class NFT extends ContractGenerator {
         ]));
     }
     async getCollectionInfo(contractAddr) {
-        const data = await getAPIData(() => contract.nft.getCollection(this.api, contractAddr));
+        const data = await getAPIData(() => contract.nft.getCollection(this.api, contractAddr, this.delegateIP));
         return data ? data._embedded : null;
     }
     /**
@@ -75,29 +75,29 @@ export class NFT extends ContractGenerator {
         return design ? design.policy : null;
     }
     async ownerOf(contractAddr, nftID) {
-        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
+        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
         return data ? data._embedded.owner : null;
     }
     async getApproved(contractAddr, nftID) {
-        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
+        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
         return data ? data._embedded.approved : null;
     }
     async totalSupply(contractAddr) {
-        const data = await getAPIData(() => contract.nft.getNFTs(this.api, contractAddr));
+        const data = await getAPIData(() => contract.nft.getNFTs(this.api, contractAddr, this.delegateIP));
         return data ? data._embedded.length : null;
     }
     async tokenURI(contractAddr, nftID) {
-        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
+        const data = await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
         return data ? data._embedded.uri : null;
     }
     async isApprovedForAll(contractAddr, owner) {
-        return await getAPIData(() => contract.nft.getAccountOperators(this.api, contractAddr, owner));
+        return await getAPIData(() => contract.nft.getAccountOperators(this.api, contractAddr, owner, this.delegateIP));
     }
     async getNFTInfo(contractAddr, nftID) {
-        return await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID));
+        return await getAPIData(() => contract.nft.getNFT(this.api, contractAddr, nftID, this.delegateIP));
     }
     async getNFTs(contractAddr) {
-        return await getAPIData(() => contract.nft.getNFTs(this.api, contractAddr));
+        return await getAPIData(() => contract.nft.getNFTs(this.api, contractAddr, this.delegateIP));
     }
 }
 //# sourceMappingURL=index.js.map

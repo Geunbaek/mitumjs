@@ -13,7 +13,7 @@ type keysType = ({
     weight: string | number | Big;
 }>;
 export declare class KeyG extends Generator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     key(seed?: string): Account;
     keys(n: number): Array<Account>;
     fromPrivateKey(key: string | Key): Account;

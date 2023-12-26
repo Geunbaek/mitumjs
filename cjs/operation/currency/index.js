@@ -50,8 +50,8 @@ const types_1 = require("../../types");
 const key_1 = require("../../key");
 const error_1 = require("../../error");
 class Currency extends types_1.Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     create(data) {
         const keysToCheck = ['currency', 'genesisAddress', 'totalSupply', 'minBalance', 'feeType', 'feeReceiver'];
@@ -102,7 +102,7 @@ class Currency extends types_1.Generator {
     }
     getAllCurrencies() {
         return __awaiter(this, void 0, void 0, function* () {
-            const datas = yield (0, api_1.getAPIData)(() => api_1.default.currency.getCurrencies(this.api));
+            const datas = yield (0, api_1.getAPIData)(() => api_1.default.currency.getCurrencies(this.api, this.delegateIP));
             return datas
                 ? Object.keys(datas._links).filter(c => !(c === "self" || c === "currency:{currencyid}")).map(c => c)
                 : null;
@@ -110,15 +110,15 @@ class Currency extends types_1.Generator {
     }
     getCurrency(cid) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.default.currency.getCurrency(this.api, cid));
+            const data = yield (0, api_1.getAPIData)(() => api_1.default.currency.getCurrency(this.api, cid, this.delegateIP));
             return data ? data._embedded : null;
         });
     }
 }
 exports.Currency = Currency;
 class Account extends key_1.KeyG {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createWallet(sender, currency, amount, seed, weight) {
         const kp = seed ? key_1.KeyPair.fromSeed(seed) : key_1.KeyPair.random();
@@ -199,38 +199,38 @@ class Account extends key_1.KeyG {
         return __awaiter(this, void 0, void 0, function* () {
             const op = wallet.operation;
             op.sign(privatekey);
-            return yield (0, api_1.getAPIData)(() => api_1.default.operation.send(this.api, op.toHintedObject()));
+            return yield (0, api_1.getAPIData)(() => api_1.default.operation.send(this.api, op.toHintedObject(), this.delegateIP));
         });
     }
     getAccountInfo(address) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccount(this.api, address));
+            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccount(this.api, address, this.delegateIP));
             return data ? data._embedded : null;
         });
     }
     getOperations(address) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.default.operation.getAccountOperations(this.api, address));
+            const data = yield (0, api_1.getAPIData)(() => api_1.default.operation.getAccountOperations(this.api, address, this.delegateIP));
             return data ? data._embedded : null;
         });
     }
     getByPublickey(publickey) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccountByPublicKey(this.api, publickey));
+            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccountByPublicKey(this.api, publickey, this.delegateIP));
             return data ? data._embedded : null;
         });
     }
     balance(address) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccount(this.api, address));
+            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccount(this.api, address, this.delegateIP));
             return data ? data._embedded.balance : null;
         });
     }
 }
 exports.Account = Account;
 class Contract extends types_1.Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createWallet(sender, currency, amount, seed, weight) {
         const kp = seed ? key_1.KeyPair.fromSeed(seed) : key_1.KeyPair.random();
@@ -287,12 +287,12 @@ class Contract extends types_1.Generator {
         return __awaiter(this, void 0, void 0, function* () {
             const op = wallet.operation;
             op.sign(privatekey);
-            return yield (0, api_1.getAPIData)(() => api_1.default.operation.send(this.api, op.toHintedObject()));
+            return yield (0, api_1.getAPIData)(() => api_1.default.operation.send(this.api, op.toHintedObject(), this.delegateIP));
         });
     }
     getContractInfo(address) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccount(this.api, address));
+            const data = yield (0, api_1.getAPIData)(() => api_1.default.account.getAccount(this.api, address, this.delegateIP));
             return data ? data._embedded : null;
         });
     }

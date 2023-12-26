@@ -30,8 +30,8 @@ const types_1 = require("../../types");
 const update_policy_1 = require("./update-policy");
 const error_1 = require("../../error");
 class DAO extends base_1.ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, data, currency) {
         const keysToCheck = ['option', 'token', 'threshold', 'fee', 'proposers', 'proposalReviewPeriod', 'registrationPeriod', 'preSnapshotPeriod', 'votingPeriod', 'postSnapshotPeriod', 'executionDelayPeriod', 'turnout', 'quorum'];
@@ -87,27 +87,27 @@ class DAO extends base_1.ContractGenerator {
     }
     getServiceInfo(contractAddr) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getService(this.api, contractAddr));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getService(this.api, contractAddr, this.delegateIP));
         });
     }
     getProposalInfo(contractAddr, proposalID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getProposal(this.api, contractAddr, proposalID));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getProposal(this.api, contractAddr, proposalID, this.delegateIP));
         });
     }
     getDelegatorInfo(contractAddr, proposalID, delegator) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getDelegator(this.api, contractAddr, proposalID, delegator));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getDelegator(this.api, contractAddr, proposalID, delegator, this.delegateIP));
         });
     }
     getVoterInfo(contractAddr, proposalID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getVoter(this.api, contractAddr, proposalID));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getVoter(this.api, contractAddr, proposalID, this.delegateIP));
         });
     }
     getVotingResult(contractAddr, proposalID) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getVotingResult(this.api, contractAddr, proposalID));
+            return yield (0, api_1.getAPIData)(() => api_1.contract.dao.getVotingResult(this.api, contractAddr, proposalID, this.delegateIP));
         });
     }
 }

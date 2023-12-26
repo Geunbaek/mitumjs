@@ -10,8 +10,8 @@ import { ContractGenerator, Operation } from "../base";
 import { TimeStamp } from "../../types";
 import { Assert, ECODE, MitumError } from "../../error";
 export class STO extends ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     authorizeOperator(contractAddr, sender, operator, partition, currency) {
         return new Operation(this.networkID, new AuthorizeOperatorFact(TimeStamp.new().UTC(), sender, [
@@ -51,22 +51,22 @@ export class STO extends ContractGenerator {
         ]));
     }
     async getServiceInfo(contractAddr) {
-        return await getAPIData(() => contract.sto.getService(this.api, contractAddr));
+        return await getAPIData(() => contract.sto.getService(this.api, contractAddr, this.delegateIP));
     }
     async getPartitionsInfo(contractAddr, holder) {
-        return await getAPIData(() => contract.sto.getPartitions(this.api, contractAddr, holder));
+        return await getAPIData(() => contract.sto.getPartitions(this.api, contractAddr, holder, this.delegateIP));
     }
     async getBalanceByHolder(contractAddr, holder, partition) {
-        return await getAPIData(() => contract.sto.getBalanceByHolder(this.api, contractAddr, holder, partition));
+        return await getAPIData(() => contract.sto.getBalanceByHolder(this.api, contractAddr, holder, partition, this.delegateIP));
     }
     async getOperatorsByHolder(contractAddr, holder, partition) {
-        return await getAPIData(() => contract.sto.getOperatorsByHolder(this.api, contractAddr, holder, partition));
+        return await getAPIData(() => contract.sto.getOperatorsByHolder(this.api, contractAddr, holder, partition, this.delegateIP));
     }
     async getPartitionBalanceInfo(contractAddr, partition) {
-        return await getAPIData(() => contract.sto.getPartitionBalance(this.api, contractAddr, partition));
+        return await getAPIData(() => contract.sto.getPartitionBalance(this.api, contractAddr, partition, this.delegateIP));
     }
     async getAuthorizedInfo(contractAddr, operator) {
-        return await getAPIData(() => contract.sto.getAuthorized(this.api, contractAddr, operator));
+        return await getAPIData(() => contract.sto.getAuthorized(this.api, contractAddr, operator, this.delegateIP));
     }
 }
 //# sourceMappingURL=index.js.map

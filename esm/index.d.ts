@@ -17,7 +17,7 @@ export declare class Mitum extends Generator {
     private _dao;
     private _token;
     private _point;
-    constructor(api?: string);
+    constructor(api?: string, delegateIP?: string);
     private refresh;
     get node(): Node;
     get account(): Account;
@@ -39,6 +39,8 @@ export declare class Mitum extends Generator {
      */
     setNode(api?: string): void;
     setAPI(api?: string | IP): void;
+    setDelegate(delegateIP: string | IP): void;
+    getDelegate(): string;
     /**
      * @deprecated use .api (get)
      */

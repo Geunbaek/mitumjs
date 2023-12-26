@@ -18,8 +18,8 @@ import { TimeStamp, URIString } from "../../types";
 import { UpdatePolicyFact } from "./update-policy";
 import { Assert, ECODE, MitumError } from "../../error";
 export class DAO extends ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, data, currency) {
         const keysToCheck = ['option', 'token', 'threshold', 'fee', 'proposers', 'proposalReviewPeriod', 'registrationPeriod', 'preSnapshotPeriod', 'votingPeriod', 'postSnapshotPeriod', 'executionDelayPeriod', 'turnout', 'quorum'];
@@ -74,19 +74,19 @@ export class DAO extends ContractGenerator {
         return new Operation(this.networkID, new ExecuteFact(TimeStamp.new().UTC(), sender, contractAddr, proposalID, currency));
     }
     async getServiceInfo(contractAddr) {
-        return await getAPIData(() => contract.dao.getService(this.api, contractAddr));
+        return await getAPIData(() => contract.dao.getService(this.api, contractAddr, this.delegateIP));
     }
     async getProposalInfo(contractAddr, proposalID) {
-        return await getAPIData(() => contract.dao.getProposal(this.api, contractAddr, proposalID));
+        return await getAPIData(() => contract.dao.getProposal(this.api, contractAddr, proposalID, this.delegateIP));
     }
     async getDelegatorInfo(contractAddr, proposalID, delegator) {
-        return await getAPIData(() => contract.dao.getDelegator(this.api, contractAddr, proposalID, delegator));
+        return await getAPIData(() => contract.dao.getDelegator(this.api, contractAddr, proposalID, delegator, this.delegateIP));
     }
     async getVoterInfo(contractAddr, proposalID) {
-        return await getAPIData(() => contract.dao.getVoter(this.api, contractAddr, proposalID));
+        return await getAPIData(() => contract.dao.getVoter(this.api, contractAddr, proposalID, this.delegateIP));
     }
     async getVotingResult(contractAddr, proposalID) {
-        return await getAPIData(() => contract.dao.getVotingResult(this.api, contractAddr, proposalID));
+        return await getAPIData(() => contract.dao.getVotingResult(this.api, contractAddr, proposalID, this.delegateIP));
     }
 }
 //# sourceMappingURL=index.js.map

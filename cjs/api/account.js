@@ -15,14 +15,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const types_1 = require("../types");
 const key_1 = require("../key");
-function getAccount(api, address) {
+const delegateUri = (delegateIP) => `${types_1.IP.from(delegateIP).toString()}?uri=`;
+function getAccount(api, address, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/account/${key_1.Address.from(address).toString()}`);
+        const apiPath = `${types_1.IP.from(api).toString()}/account/${key_1.Address.from(address).toString()}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
-function getAccountByPublicKey(api, publicKey) {
+function getAccountByPublicKey(api, publicKey, delegateIP) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield axios_1.default.get(`${types_1.IP.from(api).toString()}/accounts?publickey=${key_1.Key.from(publicKey).toString()}`);
+        const apiPath = `${types_1.IP.from(api).toString()}/accounts?publickey=${key_1.Key.from(publicKey).toString()}`;
+        return !delegateIP ? yield axios_1.default.get(apiPath) : yield axios_1.default.get(delegateUri(delegateIP) + encodeURIComponent(apiPath));
     });
 }
 exports.default = {

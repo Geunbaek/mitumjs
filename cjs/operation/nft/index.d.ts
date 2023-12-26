@@ -20,7 +20,7 @@ type Creator = {
     share: string | number | Big;
 };
 export declare class NFT extends ContractGenerator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     createCollection(contractAddr: string | Address, sender: string | Address, data: collectionData, currency: string | CurrencyID): Operation<CreateCollectionFact>;
     setPolicy(contractAddr: string | Address, sender: string | Address, data: collectionData, currency: string | CurrencyID): Operation<UpdateCollectionPolicyFact>;
     mint(contractAddr: string | Address, sender: string | Address, receiver: string | Address, uri: string | LongString, hash: string | LongString, currency: string | CurrencyID, creator: string | Address): Operation<MintFact>;

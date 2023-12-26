@@ -13,7 +13,7 @@ import { Key, KeyPair } from "../key";
 import { Generator, HintedObject, IP } from "../types";
 import * as Base from "./base";
 export declare class Operation extends Generator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     getAllOperations(): Promise<import("axios").AxiosResponse<any, any>>;
     getOperation(hash: string): Promise<import("axios").AxiosResponse<any, any>>;
     sign(privatekey: string | Key | KeyPair, operation: OP<Fact>, option?: SignOption): OP<Fact>;

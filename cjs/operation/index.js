@@ -61,17 +61,17 @@ const types_1 = require("../types");
 const Base = __importStar(require("./base"));
 exports.Base = Base;
 class Operation extends types_1.Generator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     getAllOperations() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield api_1.operation.getOperations(this.api);
+            return yield api_1.operation.getOperations(this.api, this.delegateIP);
         });
     }
     getOperation(hash) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield api_1.operation.getOperation(this.api, hash);
+            return yield api_1.operation.getOperation(this.api, hash, this.delegateIP);
         });
     }
     sign(privatekey, operation, option) {
@@ -81,7 +81,7 @@ class Operation extends types_1.Generator {
     }
     send(operation, headers) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield api_1.operation.send(this.api, operation, headers);
+            return yield api_1.operation.send(this.api, operation, this.delegateIP, headers);
         });
     }
 }

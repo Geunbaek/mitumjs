@@ -31,7 +31,7 @@ type daoData = policyData & {
     option: "crypto" | "biz";
 };
 export declare class DAO extends ContractGenerator {
-    constructor(networkID: string, api?: string | IP);
+    constructor(networkID: string, api?: string | IP, delegateIP?: string | IP);
     createService(contractAddr: string | Address, sender: string | Address, data: daoData, currency: string | CurrencyID): Operation<CreateDAOFact>;
     updateService(contractAddr: string | Address, sender: string | Address, data: daoData, currency: string | CurrencyID): Operation<UpdatePolicyFact>;
     formTransferCalldata(sender: string | Address, receiver: string | Address, currency: string | CurrencyID, amount: string | number | Big): TransferCalldata;

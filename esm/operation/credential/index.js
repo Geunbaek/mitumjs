@@ -7,8 +7,8 @@ import { contract, getAPIData } from "../../api";
 import { TimeStamp, URIString } from "../../types";
 import { Assert, ECODE, MitumError } from "../../error";
 export class Credential extends ContractGenerator {
-    constructor(networkID, api) {
-        super(networkID, api);
+    constructor(networkID, api, delegateIP) {
+        super(networkID, api, delegateIP);
     }
     createService(contractAddr, sender, currency) {
         return new Operation(this.networkID, new CreateServiceFact(TimeStamp.new().UTC(), sender, contractAddr, currency));
@@ -39,19 +39,19 @@ export class Credential extends ContractGenerator {
         ]));
     }
     async getServiceInfo(contractAddr) {
-        return await getAPIData(() => contract.credential.getIssuer(this.api, contractAddr));
+        return await getAPIData(() => contract.credential.getIssuer(this.api, contractAddr, this.delegateIP));
     }
     async getCredentialInfo(contractAddr, templateID, credentialID) {
-        return await getAPIData(() => contract.credential.getCredential(this.api, contractAddr, templateID, credentialID));
+        return await getAPIData(() => contract.credential.getCredential(this.api, contractAddr, templateID, credentialID, this.delegateIP));
     }
     async getTemplate(contractAddr, templateID) {
-        return await getAPIData(() => contract.credential.getTemplate(this.api, contractAddr, templateID));
+        return await getAPIData(() => contract.credential.getTemplate(this.api, contractAddr, templateID, this.delegateIP));
     }
     async getAllCredentials(contractAddr, templateID) {
-        return await getAPIData(() => contract.credential.getCredentials(this.api, contractAddr, templateID));
+        return await getAPIData(() => contract.credential.getCredentials(this.api, contractAddr, templateID, this.delegateIP));
     }
     async claimCredential(contractAddr, holder) {
-        return await getAPIData(() => contract.credential.getCredentialByHolder(this.api, contractAddr, holder));
+        return await getAPIData(() => contract.credential.getCredentialByHolder(this.api, contractAddr, holder, this.delegateIP));
     }
 }
 //# sourceMappingURL=index.js.map
